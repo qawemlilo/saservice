@@ -18,3 +18,7 @@ SA Service Network is business listing directory.
 - Location (using Google Maps)
 - Testimonials
 - Company Details
+
+## License
+
+Copyright (c) 2013 - All rights reserved. Qawelesizwe Mlilo <qawemlilo@gmail.com>
