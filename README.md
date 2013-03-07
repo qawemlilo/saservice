@@ -19,6 +19,12 @@ SA Service Network is business listing directory.
 - Testimonials
 - Company Details
 
+
+
+## Notes for development
+The xml file in the view tmpl folder communicates with the files in /admin/fields folder
+The model then reads the variable set in the menu and communicates with the database file in /admin/tables/
+
 ## License
 
 Copyright (c) 2013 - All rights reserved. Qawelesizwe Mlilo <qawemlilo@gmail.com>
