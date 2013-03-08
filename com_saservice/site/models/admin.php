@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.modelitem');
 
 
-class SaServiceModelHelloWorld extends JModelItem
+class SaServiceModelAdmin extends JModelItem
 {
 	/**
 	 * @var string msg

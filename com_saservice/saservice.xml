@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <extension type="component" version="2.5.8" method="upgrade">
-
-	<name>SA Service Network</name>
+	<name>SA Service</name>
 	<!-- The following elements are optional and free of formatting conttraints -->
 	<creationDate>March 2013</creationDate>
 	<author>Qawelesizwe Mlilo</author>
 	<authorEmail>qawemlilo@gmail.com</authorEmail>
 	<authorUrl>http://www.rflab.co.za</authorUrl>
-	<copyright>Copyright (C) Raging Flame 2013</copyright>
+	<copyright>Copyright (c) Raging Flame 2013</copyright>
 	<license>MIT</license>
 	<!--  The version string is recorded in the components table -->
 	<version>0.0.1</version>
@@ -31,6 +29,7 @@
 		<filename>controller.php</filename>
 		<folder>views</folder>
 		<folder>models</folder>
+        <folder>asserts</folder>
 	</files>
 
 	<administration>
