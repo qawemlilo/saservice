@@ -13,7 +13,7 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
 <div class="row-fluid" id="ss_listing">
   <div class="span8">
     <div class="row-fluid">
-      <p><i class="icon-tags"></i> <span class="label">Web design</span> <span class="label label-success">Web Development</span> <span class="label label-warning">Hosting</span></p>
+      <p><i class="icon-tags"></i> <span class="label  label-warning">Web designers</span></p>
       
       <h1>Scott Web Design</h1>
       
