@@ -6,7 +6,7 @@
  * Released under the MIT License.
  */
 
-if(window.google && window.google.maps){
+if (window.google && window.google.maps){
 
   var GMaps = (function(global) {
     "use strict";
@@ -1902,8 +1902,8 @@ if(window.google && window.google.maps){
 
     return new_array;
   };
-}
+ }
 
-else {
+ else {
   throw 'Google Maps API is required. Please register the following JavaScript library http://maps.google.com/maps/api/js?sensor=true.'
-}
+ }

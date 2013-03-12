@@ -13,9 +13,35 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
 <div class="row-fluid" id="ss_listing">
   <div class="span8">
     <div class="row-fluid">
+      <p><i class="icon-tags"></i> <span class="label">Web design</span> <span class="label label-success">Web Development</span> <span class="label label-warning">Hosting</span></p>
+      
       <h1>Scott Web Design</h1>
       
-      <p><i class="icon-tags"></i> <span class="label">Web design</span> <span class="label label-success">Web Development</span> <span class="label label-warning">Hosting</span></p>
+      <h3 style="margin:-8px 0px 20px 0px;">Affordable Website Design</h3>
+
+
+    <div id="myCarousel" class="carousel slide">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        <div class="active item">
+            <img alt="" style="height: 250px" src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/slides/listing_1/beachbeyondwebsite.png'; ?>" />
+        </div>
+        <div class="item">
+            <img alt="" style="height: 250px" src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/slides/listing_1/juciymediawebsitedesign.png'; ?>" />
+        </div>
+        <div class="item">
+            <img alt="" style="height: 250px" src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/slides/listing_1/mojovidswebsite.png'; ?>" />
+        </div>
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div> 
     
       <h2>What We Do</h2>
       <p>Looking for that all illusive affordable website solution? You have come to the right place to find affordable website and branding solutions for your business. We strive to work with your budget to give you an affordable solution for your business needs. We hope to hear from you soon.</p>
@@ -56,23 +82,24 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
     <div>
       <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" />
     </div>
-    
-    <div class="row-fluid">
-      <ul class="nav nav-list" style="margin-top: 0px">
-        <li><a href="#"><i class="icon-envelope"></i> info@scottwebdesigns.co.za</a></li>
-        <li><a href="#"><i class="icon-comment"></i> 031 089 1234</a></li>
-        <li><a href="#"><i class="icon-globe"></i> http://www.scottwebdesigns.co.za</a></li>
-      </ul>
-    </div>
-    
-    <div class="well" style="margin: 5px; padding: 5px; margin-top: 15px">
+    <h3>Location</h3>
+    <div class="well" style="margin: 5px; padding: 5px; margin-top: 10px">
       <div id="ss_listingmap" style="height: 200px;">
       
       </div>
     </div>
+    <h3>Contact Details</h3>
+    <div class="row-fluid">
+      <ul class="nav nav-list" style="margin-top: 0px">
+        <li><a href="mailto:info@scottwebdesigns.co.za" target="_blanck"><i class="icon-envelope"></i> info@scottwebdesigns.co.za</a></li>
+        <li><i class="icon-comment"></i> 031 309 2226</li>
+        <li><a href="http://www.scottwebdesigns.co.za" target="_blanck"><i class="icon-globe"></i> http://www.scottwebdesigns.co.za</a></li>
+      </ul>
+    </div>
   </div> 
 </div>
-  <script type="text/javascript">
+<script type="text/javascript" src="<?php echo JURI::base() . 'components/com_saservice/asserts/js/bootstrap.min.js'; ?>"></script>
+<script type="text/javascript">
   if(typeof jQuery !== 'undefined') {
     var address = "35 Galway Road, Durban, 4001";
     jQuery(function() {
@@ -95,6 +122,10 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
           }
         }
       });
+      
+      jQuery('#myCarousel').carousel({
+        interval: 7000
+      });
     });
   }
-  </script>
+</script>
