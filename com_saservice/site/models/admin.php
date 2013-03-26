@@ -9,31 +9,53 @@ jimport('joomla.application.component.modelitem');
 
 class SaServiceModelAdmin extends JModelItem
 {
-	/**
-	 * @var string msg
-	 */
-	protected $msg;
+    public function getTable($type = 'Listing', $prefix = 'SaServiceTable', $config = array()) 
+    {
+        return JTable::getInstance($type, $prefix, $config);
+    }
 
-	/**
-	 * Get the message
-	 * @return string The message to be displayed to the user
-	 */
-	public function getMsg() 
-	{
-		if (!isset($this->msg)) 
-		{
-			$id = JRequest::getInt('id');
-			switch ($id) 
-			{
-			case 2:
-				$this->msg = 'Good bye World!';
-			break;
-			default:
-			case 1:
-				$this->msg = 'Hello World!';
-			break;
-			}
-		}
-		return $this->msg;
-	}
+        
+        
+    
+    
+    public function getListing($id = 0) 
+    {
+        if ($id) {
+            $table = $this->getTable();
+            $table->load($id);
+                
+            return $table;
+        }
+        
+        return false;
+    }
+    
+    
+    
+    
+    public function getCategory($id = 0) 
+    {
+        if ($id) {
+            $table = $this->getTable('Category');
+            $table->load($id);
+                
+            return $table;
+        }
+        
+        return false;
+    }
+    
+    
+    
+    
+    public function getCategories() 
+    {
+	    $db =& JFactory::getDBO();
+		$query = "SELECT * FROM #__ss_categories";
+        $db->setQuery($query);
+        
+		$data = $db->loadObjectList();
+
+		return $data;
+    }
 }
