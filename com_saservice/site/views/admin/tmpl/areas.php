@@ -16,8 +16,7 @@ echo $this->loadTemplate('head');
     <thead>
       <tr>
         <th style="width:40px;"> &nbsp; </th>
-        <th>Category</th>
-        <th>Parent ID</th>
+        <th>Area Name</th>
       </tr>
     </thead>
     
@@ -27,10 +26,7 @@ echo $this->loadTemplate('head');
           <input type="checkbox" value="all" id="selectAllListings" />
         </td>
         <td>
-          <a href="#">Web Design</a>
-        </td>
-        <td>
-          24
+          <a href="#">Durban</a>
         </td>
       </tr>
     </tbody>
