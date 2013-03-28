@@ -7,6 +7,26 @@ jimport('joomla.application.component.controller');
 
 class SaServiceControllerAdmin extends JController
 {
+	function display() {
+        $user =& JFactory::getUser();
+        $currentPage = JFactory::getURI();
+        $application =& JFactory::getApplication();
+            
+        $return = $currentPage->toString();
+        $url = 'index.php?option=com_users&view=login';
+        $url .= '&return=' . base64_encode($return);
+
+        if($user->guest) {
+            $application->redirect($url, 'Restricted area, login required', 'error');
+        }
+
+        
+        parent::display();
+    }
+    
+    
+    
+    
 	function save_listing () {
         $application =& JFactory::getApplication();
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
