@@ -6,12 +6,11 @@ echo $this->loadTemplate('head');
 ?>
 
 <div class="row-fluid">
-<form class="form-horizontal well">
+<form class="form-horizontal well well-small" action="index.php" method="post">
 <fieldset>
 
-<!-- Form Name -->
-<legend>New Listing</legend>
 
+<h2 style="margin-top: 0px">General Info</h2>
 <!-- Text input-->
 <div class="control-group">
   <label class="control-label">Service Provider</label>
@@ -56,7 +55,7 @@ echo $this->loadTemplate('head');
     <p class="help-block"></p>
   </div>
 </div>
-
+<h2> Social Pages</h2>
 <!-- Prepended text-->
 <div class="control-group">
   <label class="control-label">Twitter Handle</label>
@@ -78,6 +77,8 @@ echo $this->loadTemplate('head');
   </div>
 </div>
 
+
+<h2>Location Info</h2>
 <!-- Select Basic -->
 <div class="control-group">
   <label class="control-label">Province</label>
@@ -101,7 +102,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">City</label>
   <div class="controls">
-    <input id="city" name="city" placeholder="Your city" class="input-xlarge" required="" type="password">
+    <input id="city" name="city" placeholder="Your city" class="input-xlarge" required="" type="text">
     <p class="help-block"></p>
   </div>
 </div>
@@ -110,9 +111,18 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Physical Address</label>
   <div class="controls">                     
-    <div id="address" name="address" class="textarea">
-      <textarea>...</textarea>
-    </div>
+    <textarea name="address" class="input-xlarge" rows="8" placeholder="..."></textarea>
+  </div>
+</div>
+
+
+<h2>Business Info</h2>
+
+<!-- File Button --> 
+<div class="control-group">
+  <label class="control-label">Upload Logo</label>
+  <div class="controls">
+    <input name="logo" class="input-file" type="file">
   </div>
 </div>
 
@@ -120,8 +130,17 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Slogan</label>
   <div class="controls">
-    <input id="slogan" name="slogan" placeholder="Slogan" class="input-xlarge" type="text">
+    <input name="slogan" placeholder="Slogan" class="input-xlarge" type="text">
     <p class="help-block"></p>
+  </div>
+</div>
+
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Categories</label>
+  <div class="controls">
+    <input name="categories" placeholder="e.g Building, Repair, Plumbing" class="input-xlarge" type="text">
   </div>
 </div>
 
@@ -129,7 +148,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Services Offered</label>
   <div class="controls">
-    <input id="services" name="services" placeholder="e.g Building, Repair, Plumbing" class="input-xlarge" type="text">
+    <input name="services" placeholder="e.g Mobile websites, Joomla custom development, Website optimisation" class="input-xlarge" type="text">
   </div>
 </div>
 
@@ -137,25 +156,51 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">About Us</label>
   <div class="controls">                     
-    <div id="aboutus" name="aboutus" class="textarea">
-      <textarea class="input-xlarge" rows="8">...</textarea>
-    </div>
+    <textarea name="aboutus" class="input-xlarge" rows="2" placeholder="..."></textarea>
   </div>
 </div>
 
+<h2>Showcase Images</h2>
 <!-- File Button --> 
 <div class="control-group">
-  <label class="control-label">Upload Logo</label>
+  <label class="control-label">Slide 1</label>
   <div class="controls">
-    <input id="logo" name="logo" class="input-file" type="file">
+    <input name="slide1" class="input-file" type="file"> <br>
+    <textarea name="slide1text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
   </div>
 </div>
+<div class="control-group">
+  <label class="control-label">Slide 2</label>
+  <div class="controls">
+    <input name="slide2" class="input-file" type="file"> <br>
+    <textarea name="slide2text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">Slide 3</label>
+  <div class="controls">
+    <input name="slide3" class="input-file" type="file"> <br>
+    <textarea name="slide3text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">Slide 4</label>
+  <div class="controls">
+    <input name="slide4" class="input-file" type="file"> <br>
+    <textarea name="slide4text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
+  </div>
+</div>
+
+<input type="hidden" name="option" value="com_saservice" />
+<input type="hidden" name="view" value="admin" />
+<input type="hidden" name="import" value="1">
+<input type="hidden" name="task" value="save_listing" />
 
 <!-- Button (Double) -->
 <div class="control-group">
   <label class="control-label"></label>
   <div class="controls">
-    <button id="submit" name="submit" class="btn btn-success">Create Listing</button>
+    <button id="submit" type="submit" name="submit" class="btn btn-success">Create Listing</button>
     <button id="cancel" name="cancel" class="btn btn-default">Cancel</button>
   </div>
 </div>

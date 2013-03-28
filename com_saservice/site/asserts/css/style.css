@@ -42,4 +42,8 @@ ul li a.active {
   cursor: pointer;
 }
 
+.input-file {
+  margin-left: 5px !important;
+}
+
 
