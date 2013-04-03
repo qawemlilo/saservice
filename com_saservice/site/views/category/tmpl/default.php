@@ -14,48 +14,24 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bo
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-           <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
       
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
       
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
       
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
     </ul>
@@ -65,48 +41,24 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bo
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
       
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
       
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
       
       <li class="span3">
         <div class="thumbnail">
           <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" alt="">
-          
-          <div class="caption">
-            <h3 style="color:#1E598D !important; margin-top: 0px">Company Name</h3>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
-          </div>
         </div>
       </li>
     </ul>
