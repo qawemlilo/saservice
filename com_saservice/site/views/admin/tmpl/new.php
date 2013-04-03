@@ -6,10 +6,8 @@ echo $this->loadTemplate('head');
 ?>
 
 <div class="row-fluid">
-<form class="form-horizontal well well-small" action="index.php" method="post">
+<form class="form-validate form-horizontal well well-small" action="<?php echo JRoute::_('index.php'); ?>" enctype="multipart/form-data" name="admin" id="admin" method="post">
 <fieldset>
-
-
 <h2 style="margin-top: 0px">General Info</h2>
 <!-- Text input-->
 <div class="control-group">
@@ -192,9 +190,8 @@ echo $this->loadTemplate('head');
 </div>
 
 <input type="hidden" name="option" value="com_saservice" />
-<input type="hidden" name="view" value="admin" />
-<input type="hidden" name="import" value="1">
-<input type="hidden" name="task" value="save_listing" />
+<input type="hidden" name="task" value="admin.savelisting" />
+<?php echo JHtml::_('form.token'); ?>
 
 <!-- Button (Double) -->
 <div class="control-group">
