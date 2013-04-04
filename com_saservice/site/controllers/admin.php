@@ -67,4 +67,26 @@ class SaServiceControllerAdmin extends JController
         
         return true;
     }
+    
+    
+    
+    
+    public function savecategory () {
+        //JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $application =& JFactory::getApplication();
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $model = $this->getModel('Admin');
+        
+        $name = JRequest::getVar('name', '', 'post', 'string');
+        $parent_id = JRequest::getVar('parent_id', 0, 'post', 'int');
+        //$image = JRequest::getVar('image', null, 'files', 'array');
+        
+        if (!$model->addCategory($name, '', $parent_id)) {
+            $application->redirect($refer, 'Error! Failed to save category', 'error');
+        }
+        else {
+            $application->redirect($refer, 'Success! Category saved!', 'success');
+        }
+    }
 }

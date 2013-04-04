@@ -6,6 +6,10 @@ echo $this->loadTemplate('head');
 ?>
 
 <div class="row-fluid">
+
+<?php
+if (!($this->query == 'categories')) :
+?>
 <form class="form-validate form-horizontal well well-small" action="<?php echo JRoute::_('index.php'); ?>" enctype="multipart/form-data" name="admin" id="admin" method="post">
 <fieldset>
 <h2 style="margin-top: 0px">General Info</h2>
@@ -82,16 +86,16 @@ echo $this->loadTemplate('head');
   <label class="control-label">Province</label>
   <div class="controls">
     <select id="province" name="province" class="input-xlarge">
-      <option>Select Province</option>
-      <option>Eastern Cape</option>
-      <option>Free State</option>
-      <option>Gauteng</option>
-      <option>KwaZulu Natal</option>
-      <option>Limpopo</option>
-      <option>Mpumalanga</option>
-      <option>Northern Cape</option>
-      <option>North West</option>
-      <option>Western Cape</option>
+      <option value="">Select Province</option>
+      <option value="Eastern Cape">Eastern Cape</option>
+      <option value="Free State">Free State</option>
+      <option value="Gauteng">Gauteng</option>
+      <option value="KwaZulu Natal">KwaZulu Natal</option>
+      <option value="Limpopo">Limpopo</option>
+      <option value="Mpumalanga">Mpumalanga</option>
+      <option value="Northern Cape">Northern Cape</option>
+      <option value="North West">North West</option>
+      <option value="Western Cape">Western Cape</option>
     </select>
   </div>
 </div>
@@ -161,28 +165,28 @@ echo $this->loadTemplate('head');
 <h2>Showcase Images</h2>
 <!-- File Button --> 
 <div class="control-group">
-  <label class="control-label">Slide 1</label>
+  <label class="control-label">Image 1</label>
   <div class="controls">
     <input name="slide1" class="input-file" type="file"> <br>
     <textarea name="slide1text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
   </div>
 </div>
 <div class="control-group">
-  <label class="control-label">Slide 2</label>
+  <label class="control-label">Image 2</label>
   <div class="controls">
     <input name="slide2" class="input-file" type="file"> <br>
     <textarea name="slide2text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
   </div>
 </div>
 <div class="control-group">
-  <label class="control-label">Slide 3</label>
+  <label class="control-label">Image 3</label>
   <div class="controls">
     <input name="slide3" class="input-file" type="file"> <br>
     <textarea name="slide3text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
   </div>
 </div>
 <div class="control-group">
-  <label class="control-label">Slide 4</label>
+  <label class="control-label">Image 4</label>
   <div class="controls">
     <input name="slide4" class="input-file" type="file"> <br>
     <textarea name="slide4text" class="input-xlarge" rows="2" placeholder="Description..."></textarea>
@@ -205,4 +209,59 @@ echo $this->loadTemplate('head');
 </fieldset>
 </form>
 
+<?php
+else :
+?>
+
+<form class="form-validate form-horizontal well well-small" action="<?php echo JRoute::_('index.php'); ?>" enctype="multipart/form-data" name="admin" id="admin" method="post">
+<fieldset>
+<h2 style="margin-top: 0px">Add a category</h2>
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Category Name</label>
+  <div class="controls">
+    <input id="name" name="name" placeholder="Name of Category" class="input-xlarge" required="" type="text">
+    <p class="help-block"></p>
+  </div>
 </div>
+
+<?php 
+if($this->categoriesHTML) {
+?>
+<div class="control-group">
+  <label class="control-label">Parent Category</label>
+  <div class="controls">
+    <?php echo $this->categoriesHTML; ?>
+  </div>
+</div>
+<?php } ?>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Category Image</label>
+  <div class="controls">
+    <input name="image" class="input-file" type="file">
+    <p class="help-block"></p>
+  </div>
+</div>
+
+<input type="hidden" name="option" value="com_saservice" />
+<input type="hidden" name="task" value="admin.savecategory" />
+<?php echo JHtml::_('form.token'); ?>
+
+<!-- Button (Double) -->
+<div class="control-group">
+  <label class="control-label"></label>
+  <div class="controls">
+    <button id="submit" type="submit" name="submit" class="btn btn-success">Create Listing</button>
+    <button id="cancel" name="cancel" class="btn btn-default">Cancel</button>
+  </div>
+</div>
+</fieldset>
+</form>
+
+<?php
+endif;
+?>
+</div>
+
