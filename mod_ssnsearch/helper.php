@@ -14,14 +14,14 @@ class ModSsnsearchHelper
     
     }
     
-    public function createArry ($list) {
+    public function createCategoriesArray ($list) {
         $arr = '[';
         
         foreach ($list as $cat) {
             $arr .= '"' .$cat->name . '",';
         }
         
-        $arr .= '"Other"]';
+        $arr .= '""]';
         
         return $arr;
     }
