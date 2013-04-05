@@ -83,8 +83,8 @@ class SaServiceModelAdmin extends JModelItem
     
     
     
-    function _buildQuery() {
-        $query = "SELECT * FROM #__ss_categories";
+    private function _buildQuery() {
+        $query = "SELECT * FROM #__ss_categories ORDER BY name ASC";
         
         return $query;        
     }
@@ -105,7 +105,7 @@ class SaServiceModelAdmin extends JModelItem
     
     
     
-    function getTotal() {
+    private function getTotal() {
         // Load the content if it doesn't already exist
         if (empty($this->_total)) {
             $query = $this->_buildQuery();
@@ -117,7 +117,7 @@ class SaServiceModelAdmin extends JModelItem
     
     
     
-    function getCategories() {
+    public function getCategories() {
         $query = $this->_buildQuery();
         
         $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));

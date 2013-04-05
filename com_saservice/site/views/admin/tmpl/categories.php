@@ -68,7 +68,7 @@ echo $this->loadTemplate('head');
             li = $('<li>');
             
             if (child.prop("tagName") === 'STRONG') {
-              li.addClass('active');
+              li.addClass('disabled');
               
               child = $('<a>', {
                 href: "#",

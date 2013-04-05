@@ -6,29 +6,67 @@ $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bootstrap.min.css');
 $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/style.css');
 
-$cats = array("Electricians", "Plumbing / geyser", "Satellite", "Pool services", "Garden services", "Security", "Airconditioning", "Auto glass", "Courier", "Attorneys", "Gyaenacologists", "Orthodontists", "Paeditricians", "Kitchen", "Home automation", "Interior decorators", "Blinds & curtains", "Veternerian", "Dog parlour", "Transport", "Computers", "Wedding planners", "Car sales", "Painting companies", "Developers", "Buliding contractors", "Paving", "Aluminium windows", "Roofing", "Tiler", "Electric fencing ", "Fencing", "Conveyancers", "Electronics", "Bond originators", "Pest control", "Hygeine", "Plan drawers", "Architect", "Quantity survayors", "Escourt agencies", "Scafolding", "Carport", "Landscaping", "Shipping", "Flooring", "Insurance", "Website designers", "Corporate gifts", "Advertising ", "Printing", "Loan companies", "Travel agencies", "Lighting", "Party planners", "IT companies", "Day care / creche", "Tyres", "Furniture", "Engineering ", "Bed & breakfast", "Lodges", "Guarding", "Cctv", "Flowers", "Driving schools", "Catorers", "Forklift", "Local papers", "Private tutors", "Dermatologists", "Gyms", "Personal trainers", "Dietician", "Radiologists", "Photography", "Audio companies", "Spas", "Cardiologists", "Service garages", "Shuttle / tours", "Rental agencies", "Estate agents", "Panel beaters", "Letting agencies", "Managing agents", "Car rental", "Glass companies", "Tool hire", "Accountants", "Gate automation", "Appliance repairs", "Taxi", "Locksmiths", "Retirement homes", "Kitchen fittings", "Cab services", "Safety clothing", "Funeral houses", "Halaal restuarants", "Private schools", "Carpeting");
+$alphas = range('A', 'Z');
 
-$limit = ceil(count($cats) / 3);
-$counter = 0;
 ?>
 
 <h1>All Categories</h1>
+
+<div class="pagination">
+  <ul>
+    <?php
+      foreach($alphas as $alpha) {
+        if ($this->alpha && $this->alpha == $alpha) {
+            echo '<li class="disabled"><a href="' . JRoute::_("index.php?option=com_saservice&view=categories&alpha=" . $alpha) . '">' . $alpha . '</a></li>';
+        }
+        else {
+            echo '<li><a href="' . JRoute::_("index.php?option=com_saservice&view=categories&alpha=" . $alpha) . '">' . $alpha . '</a></li>';
+        }
+      }
+    ?>
+  </ul>
+</div>
 <div class="row-fluid ss-categories">
+<?php
+$limit = ceil(count($this->categories) / 3);
+$counter = 0;
+
+if (is_array($this->categories) && count($this->categories) > 0) :
+?>
  <div class="span4">
    <ul class="unstyled" style="padding-left: 0px">
 <?php 
-  sort($cats); 
-  foreach($cats as $id=>$cat) {
+  foreach($this->categories as $category) {
     if ($counter == $limit) {
       echo '</ul></div><div class="span4"><ul class="unstyled" style="padding-left: 0px">';
       $counter = 0;
     }
-    $href = JRoute::_("index.php?option=com_saservice&view=category&cid=" . $id);
-    echo "<li><a href=\"{$href}\">$cat</a></li>";
+    $href = JRoute::_("index.php?option=com_saservice&view=category&cid=" . $category->id);
+    echo "<li><a href=\"$href\">$category->name</a></li>";
     
     $counter++;
   }
 ?>
     </ul>
   </div>
+<?php
+
+elseif (is_array($this->match) && count($this->match) > 0) :
+?>
+  <ul class="unstyled" style="padding-left: 0px">
+  <?php
+    foreach($this->match as $category) {
+        $href = JRoute::_("index.php?option=com_saservice&view=category&cid=" . $category->id);
+        echo "<li><a href=\"$href\">$category->name</a></li>";
+    }
+  ?>
+  </ul>
+<?php
+else :
+    echo '<div class="alert">Results not found. </div>';
+
+endif;    
+?>
+
 </div>
+
