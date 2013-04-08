@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" version="2.5.8" method="upgrade">
+    <name>SSN Search</name>
+    <author>Qawelesizwe Mlilo</author>
+    <authorEmail>qawemlilo@gmail.com</authorEmail>
+    <authorUrl>http://qawemlilo.rflab.co.za/</authorUrl>
+    <license>GPL/GNU</license>
+    <version>0.0.1</version>
+    <description>SSN Search</description>
+
+    <files>
+        <filename>mod_ssnsearch.xml</filename>
+        <filename module="mod_ssnsearch">mod_ssnsearch.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+        <folder>asserts</folder>
+    </files>
+</extension>
