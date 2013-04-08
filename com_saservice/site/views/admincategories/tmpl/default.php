@@ -29,7 +29,7 @@ echo $this->loadTemplate('head');
           <a href="#"><?php echo $listing->name; ?></a>
         </td>
         <td>
-          0<?php echo $listing->phone; ?>
+          <?php echo $listing->phone; ?>
         </td>
         <td>
           <a href="mailto:<?php echo $listing->email; ?>"><?php echo $listing->email; ?></a>

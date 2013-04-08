@@ -88,8 +88,7 @@ if (!($this->query == 'categories')) :
 <div class="control-group">
   <label class="control-label">Physical Address</label>
   <div class="controls">                     
-    <input id="physical_address" name="physical_address" placeholder="Enter address here..." class="input-xxlarge" required="" type="text"> 
-    <input class="btn" type="button" value="find" id="find" />
+    <input id="physical_address" name="physical_address" placeholder="Enter address here..." class="input-xxlarge" required="" type="text">
     <input id="formatted_address" name="formatted_address" class="input-xxlarge" type="hidden">
   </div>
 </div>
@@ -164,7 +163,7 @@ if (!($this->query == 'categories')) :
 <div class="control-group">
   <label class="control-label">Categories</label>
   <div class="controls">
-    <?php echo $this->categoriesHTML; ?>
+    <input name="categories" placeholder="e.g Building, Repair, Plumbing" class="input-xxlarge" type="text">
   </div>
 </div>
 
@@ -235,9 +234,6 @@ if (!($this->query == 'categories')) :
         $('#physical_address').geocomplete({
             details: '#admin',
             componentRestrictions: {country: 'za'}
-        })
-        $('#find').on('click', function () {
-            $('#physical_address').trigger('geocode');
         });
     });
 }(jQuery));
@@ -288,7 +284,7 @@ if($this->categoriesHTML) {
   <label class="control-label"></label>
   <div class="controls">
     <button id="submit" type="submit" name="submit" class="btn btn-success">Create Listing</button>
-    <a id="cancel" href="<?php echo JRoute::_('index.php?option=com_saservice&view=admin'); ?>" class="btn btn-default">Cancel</a>
+    <button id="cancel" name="cancel" class="btn btn-default">Cancel</button>
   </div>
 </div>
 </fieldset>

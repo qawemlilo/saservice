@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // import Joomla modelitem library
 jimport('joomla.application.component.modelitem');
-
+require_once(dirname(__FILE__) . DS . 'tables' . DS . 'listing.php');
 
 class SaServiceModelAdmin extends JModelItem
 {
@@ -19,7 +19,7 @@ class SaServiceModelAdmin extends JModelItem
         $mainframe = JFactory::getApplication();
  
         // Get pagination request variables
-        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 5, 'int');
+        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 10, 'int');
         $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
         
         // In case limit has been changed, adjust it
@@ -54,6 +54,42 @@ class SaServiceModelAdmin extends JModelItem
     
     
     
+    public function getListings() {
+        $db =& JFactory::getDBO();
+        $query = $this->_buildQuery('list');
+        
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        
+        return $result;
+    }    
+    
+    
+    
+    
+    
+    public function addListing($arr = array()) {
+        
+        if (is_array($arr) && count($arr) > 0) {
+            $table = $this->getTable();
+            
+            if (!$table->bind( $arr )) {
+                return JError::raiseWarning( 500, $table->getError() );
+            }
+            if (!$table->store( $arr )) {
+                return JError::raiseWarning( 500, $table->getError() );
+            }
+                
+            return $table->id;
+        }
+        
+        return false;
+    }
+    
+    
+    
+    
+    
     public function getCategory($id = 0) {
         if ($id) {
             $table =& $this->getTable('Category');
@@ -83,8 +119,28 @@ class SaServiceModelAdmin extends JModelItem
     
     
     
-    private function _buildQuery() {
-        $query = "SELECT * FROM #__ss_categories ORDER BY name ASC";
+    public function saveListngCategory($listingId, $categoryId) 
+    {
+        $db =& JFactory::getDBO();
+		$query = "INSERT INTO #__category_listing (listing_id, category_id) VALUES($listingId, $categoryId)";
+        $db->setQuery($query);
+        
+		$result = $db->query();
+            
+        return $result;
+    }
+    
+    
+    
+    private function _buildQuery($q) {
+        $query = '';
+        
+        if ($q == 'cat') {
+            $query = "SELECT * FROM #__ss_categories ORDER BY name ASC";
+        }
+        if ($q == 'list') {
+            $query = "SELECT * FROM #__ss_listings ORDER BY id DESC";
+        }
         
         return $query;        
     }
@@ -108,7 +164,7 @@ class SaServiceModelAdmin extends JModelItem
     private function getTotal() {
         // Load the content if it doesn't already exist
         if (empty($this->_total)) {
-            $query = $this->_buildQuery();
+            $query = $this->_buildQuery('cat');
  	        $this->_total = $this->_getListCount($query);	
  	    }
         return $this->_total;
@@ -117,11 +173,23 @@ class SaServiceModelAdmin extends JModelItem
     
     
     
-    public function getCategories() {
-        $query = $this->_buildQuery();
+    public function getAdminCategories() {
+        $query = $this->_buildQuery('cat');
         
         $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
 		return $this->_data;
+    }
+    
+    
+    
+    
+    public function getCategories() {
+        $db =& JFactory::getDBO();
+        $query = $this->_buildQuery('cat');
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        
+        return $result;
     }
 }

@@ -23,25 +23,11 @@ class SaServiceViewAdmin extends JView
         
         $this->query = JRequest::getVar('q', '', 'GET');
         $this->pagination = $this->get('Pagination');
-        
-        if ($this->layout == 'new') {
-            $this->categories = $this->get('Categories');
-            
-            if ($this->query == 'categories') {
-                $this->categoriesHTML = $this->createDropDown($this->categories); 
-            }
-            else {
-                $this->categoriesHTML = $this->createSelects($this->categories);
-            }
-        }
-        elseif($this->layout == 'categories') {
-            $this->categories = $this->get('AdminCategories');
-            $this->categoriesHTML = $this->createDropDown($this->categories);
-        }
-        
+
+        $this->categories = $this->get('Categories');
         $this->listings = $this->get('Listings');
         
-        
+        $this->categoriesHTML = $this->createDropDown($categories);
 
 		parent::display($tpl);
 	}  
@@ -51,26 +37,6 @@ class SaServiceViewAdmin extends JView
     function createDropDown ($categories) {
         $select = '<select name="parent_id" class="input-xlarge">';
         $select .= '<option value="0">Select parent category</option>';
-        
-        if (!(is_array($categories) && count($categories) > 0)) {
-            return false;
-        }
-        
-        foreach ($categories as $category) {
-            $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';   
-        }
-        
-        $select .= '</select>';
-        
-        return $select;
-    }
-    
-    
-    
-    
-    function createSelects($categories) {
-        $select = '<select name="categories" class="input-xlarge" multiple size="12" >';
-        $select .= '<option value="">Select categories</option>';
         
         if (!(is_array($categories) && count($categories) > 0)) {
             return false;

@@ -9,7 +9,7 @@
 	<copyright>Copyright (c) Raging Flame 2013</copyright>
 	<license>MIT</license>
 	<!--  The version string is recorded in the components table -->
-	<version>0.0.6</version>
+	<version>0.0.8</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>SA Service Network Component</description>
 
@@ -44,6 +44,10 @@
 		<folder>models</folder>
         <folder>asserts</folder>
 	</files>
+    
+    <media destination="com_saservice" folder="media">
+        <folder>listings</folder>
+    </media>
 
 	<administration>
 		<!-- Administration Menu Section -->
