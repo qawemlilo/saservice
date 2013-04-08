@@ -18,7 +18,7 @@ class SaServiceViewAdmin extends JView
 		// Assign data to the view
 		$this->layout = JRequest::getVar('layout', '', 'GET');
         
-        $params =& JComponentHelper::getParams( 'com_saservice' );
+        //$params =& JComponentHelper::getParams( 'com_saservice' );
         $limit = $params->get('devotions_limit');
         
         $this->query = JRequest::getVar('q', '', 'GET');

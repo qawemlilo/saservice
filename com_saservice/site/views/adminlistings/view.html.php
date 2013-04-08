@@ -8,35 +8,32 @@ jimport('joomla.application.component.view');
 
 
 
-class SaServiceViewAdmin extends JView
+class SaServiceViewAdminlistings extends JView
 {
-    
-    
-	// Overwriting JView display method
-	function display($tpl = null) 
-	{
-		// Assign data to the view
-		$this->layout = JRequest::getVar('layout', '', 'GET');
+    // Overwriting JView display method
+    function display($tpl = null) {
+        $this->layout = JRequest::getVar('layout', '', 'GET');
         
-        $params =& JComponentHelper::getParams( 'com_saservice' );
-        $limit = $params->get('devotions_limit');
+        if ($this->layout == 'new') {
+            $limit = $params->get('devotions_limit');
+            $this->categories = $this->get('Categories');
+            
+            $this->categoriesHTML = $this->createSelects($this->categories);
+        }
+        else {
+            $this->listings = $this->get('Listings');
+            $this->pagination = $this->get('Pagination');
+        }
         
-        $this->query = JRequest::getVar('q', '', 'GET');
-        $this->pagination = $this->get('Pagination');
-
-        $this->categories = $this->get('Categories');
-        $this->listings = $this->get('Listings');
-        
-        $this->categoriesHTML = $this->createDropDown($categories);
-
-		parent::display($tpl);
-	}  
+        parent::display($tpl);
+    }
     
     
     
-    function createDropDown ($categories) {
-        $select = '<select name="parent_id" class="input-xlarge">';
-        $select .= '<option value="0">Select parent category</option>';
+    
+    function createSelects($categories) {
+        $select = '<select name="categories" class="input-xlarge" multiple size="12" >';
+        $select .= '<option value="">Select categories</option>';
         
         if (!(is_array($categories) && count($categories) > 0)) {
             return false;
