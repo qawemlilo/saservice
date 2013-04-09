@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS `#__ss_categories`, `#__ss_listings`, `#__category_listing`;
+DROP TABLE IF EXISTS `#__ss_categories`, `#__ss_listings`, `#__ss_category_listing`;

@@ -15,10 +15,8 @@ class SaServiceViewAdminlistings extends JView
         $this->layout = JRequest::getVar('layout', '', 'GET');
         
         if ($this->layout == 'new') {
-            $limit = $params->get('devotions_limit');
-            $this->categories = $this->get('Categories');
-            
-            $this->categoriesHTML = $this->createSelects($this->categories);
+            $this->categories = $this->get('Categories'); 
+            $this->categoriesHTML = $this->createSelects($this->categories, false);
         }
         else {
             $this->listings = $this->get('Listings');
@@ -31,8 +29,8 @@ class SaServiceViewAdminlistings extends JView
     
     
     
-    function createSelects($categories) {
-        $select = '<select name="categories" class="input-xlarge" multiple size="12" >';
+    function createSelects($categories, $flag) {
+        $select = '<select name="categories[]" class="input-xlarge" multiple size="12" >';
         $select .= '<option value="">Select categories</option>';
         
         if (!(is_array($categories) && count($categories) > 0)) {
@@ -40,7 +38,17 @@ class SaServiceViewAdminlistings extends JView
         }
         
         foreach ($categories as $category) {
-            $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';   
+            if ($flag) {
+                if (in_array($category->id, $flag)) {
+                    $select .= '<option selected="selected" value="' . $category->id . '">' . $category->name . '</option>';
+                }
+                else {
+                    $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';
+                }
+            }
+            else {
+                $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';
+            }
         }
         
         $select .= '</select>';

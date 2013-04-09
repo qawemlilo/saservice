@@ -2,13 +2,13 @@ CREATE TABLE IF NOT EXISTS `#__ss_categories` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default 0,
   `name` varchar(140) NOT NULL UNIQUE,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `#__ss_categories` (`parent_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `#__ss_listings` (
   `id` int(11) NOT NULL auto_increment,
-  `area_id` int(11) NOT NULL default 0,
   `name` varchar(140) NOT NULL,
   `slogan` varchar(140) NOT NULL,
   `email` varchar(100) NOT NULL default '',
@@ -32,11 +32,13 @@ CREATE TABLE IF NOT EXISTS `#__ss_listings` (
 
 
 
-CREATE TABLE IF NOT EXISTS `#__category_listing` (
+CREATE TABLE IF NOT EXISTS `#__ss_category_listing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `listing_id` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `#__ss_categories` (`category_id`),
+  KEY `#__ss_listings` (`listing_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 

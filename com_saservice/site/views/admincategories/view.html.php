@@ -8,28 +8,25 @@ jimport('joomla.application.component.view');
 
 
 
-class SaServiceViewAdmin extends JView
+class SaServiceViewAdmincategories extends JView
 {
     
     
 	// Overwriting JView display method
 	function display($tpl = null) 
 	{
-		// Assign data to the view
-		$this->layout = JRequest::getVar('layout', '', 'GET');
+        $this->layout = JRequest::getVar('layout', '', 'GET');
         
-        $params =& JComponentHelper::getParams( 'com_saservice' );
-        $limit = $params->get('devotions_limit');
+        if ($this->layout == 'new' || $this->layout == 'edit') {
+            $this->categories = $this->get('FormCategories'); 
+            $this->categoriesHTML = $this->createDropDown($this->categories);
+        }
+        else {
+            $this->categories = $this->get('Categories');
+            $this->pagination = $this->get('Pagination');
+        }
         
-        $this->query = JRequest::getVar('q', '', 'GET');
-        $this->pagination = $this->get('Pagination');
-
-        $this->categories = $this->get('Categories');
-        $this->listings = $this->get('Listings');
-        
-        $this->categoriesHTML = $this->createDropDown($categories);
-
-		parent::display($tpl);
+        parent::display($tpl);
 	}  
     
     

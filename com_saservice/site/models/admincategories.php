@@ -5,9 +5,9 @@ defined('_JEXEC') or die('Restricted access');
 
 // import Joomla modelitem library
 jimport('joomla.application.component.modelitem');
-require_once(dirname(__FILE__) . DS . 'tables' . DS . 'listing.php');
+require_once(dirname(__FILE__) . DS . 'tables' . DS . 'category.php');
 
-class SaServiceModelAdminlistings extends JModelItem
+class SaServiceModelAdmincategories extends JModelItem
 {
     private $_total = null;    
     private $_pagination = null;   
@@ -32,67 +32,19 @@ class SaServiceModelAdminlistings extends JModelItem
     
     
     
-    public function getTable($type = 'Listing', $prefix = 'SaServiceTable', $config = array()) {
+    public function getTable($type = 'Category', $prefix = 'SaServiceTable', $config = array()) {
         return JTable::getInstance($type, $prefix, $config);
     }
     
-
     
     
-    
-    
-    public function saveListingCategory($listingId, $categoryids) 
-    {
-        if (is_array($categoryids) && count($categoryids) > 0) {
-            $query = "INSERT INTO #__ss_category_listing (listing_id, category_id) VALUES ";
-            $flag = false;
-            foreach ($categoryids as $categoryid) {
-                if (!$flag) {
-                    $query .= "($listingId, $categoryid)";
-                    $flag = true;
-                }
-                else {
-                    $query .= ", ($listingId, $categoryid)";
-                }
-            }
-            
-            $db =& JFactory::getDBO();
-            $db->setQuery($query);
-        
-		    $result = $db->query();
-            
-            return $result;
-        }
-        
-        return false;
-    }
-    
-    
-    
-    
-    
+  
+  
     private function _buildQuery() {
-        $query = "SELECT * FROM #__ss_listings ORDER BY id DESC";
+        $query = "SELECT * FROM #__ss_categories ORDER BY name ASC";
         
         return $query;        
     }
-    
-    
-    
-    
-    
-    public function getPagination() {
- 	    $total = $this->getTotal();
- 	    
-        // Load the content if it doesn't already exist
- 	    if (empty($this->_pagination)) {
- 	        jimport('joomla.html.pagination');
- 	        $this->_pagination = new JPagination($total, $this->getState('limitstart'), $this->getState('limit') );
-        }
- 	
-        return $this->_pagination;
-    }
-    
     
     
     
@@ -104,11 +56,13 @@ class SaServiceModelAdminlistings extends JModelItem
  	        $this->_total = $this->_getListCount($query);	
  	    }
         return $this->_total;
-    }
+    } 
+
+        
+        
     
     
-    
-    public function getListing($id = 0) {
+    public function getCategory($id = 0) {
         if ($id) {
             $table = $this->getTable();
             $table->load($id);
@@ -121,13 +75,13 @@ class SaServiceModelAdminlistings extends JModelItem
 
 
 
-    public function removeListing($listings) {   
-        if (is_array($listings) && count($listings) > 0) {
-            $ids = '(' . implode(",", $listings) . ')';
+    public function removeCategory($categories) {   
+        if (is_array($categories) && count($categories) > 0) {
+            $ids = '(' . implode(",", $categories) . ')';
             
             $db =& JFactory::getDBO();
-            $query = "DELETE FROM #__ss_listings WHERE id IN $ids";
-            $query2 = "DELETE FROM #__ss_category_listing WHERE listing_id IN $ids";
+            $query = "DELETE FROM #__ss_categories WHERE id IN $ids";
+            $query2 = "DELETE FROM #__ss_category_listing WHERE category_id IN $ids";
             $db->setQuery($query);
             $result = $db->query();
             
@@ -148,7 +102,7 @@ class SaServiceModelAdminlistings extends JModelItem
     
     
     
-    public function addListing($arr = array()) {
+    public function addCategory($arr = array()) {
         
         if (is_array($arr) && count($arr) > 0) {
             $table = $this->getTable();
@@ -169,21 +123,19 @@ class SaServiceModelAdminlistings extends JModelItem
     
     
     
-    
-    
-    public function getListings() {
+    public function getCategories() {
         $query = $this->_buildQuery();
-        $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         
-        return $this->_data;
+        $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
+		return $this->_data;
     }
     
     
     
     
     
-    
-    public function getCategories() {
+    public function getFormCategories() {
         $db =& JFactory::getDBO();
         $query = "SELECT * FROM #__ss_categories ORDER BY name ASC";
         $db->setQuery($query);
@@ -191,5 +143,19 @@ class SaServiceModelAdminlistings extends JModelItem
         
         return $result;
     }
-}
 
+    
+    
+    
+    public function getPagination() {
+ 	    $total = $this->getTotal();
+ 	    
+        // Load the content if it doesn't already exist
+ 	    if (empty($this->_pagination)) {
+ 	        jimport('joomla.html.pagination');
+ 	        $this->_pagination = new JPagination($total, $this->getState('limitstart'), $this->getState('limit') );
+        }
+ 	
+        return $this->_pagination;
+    }
+}

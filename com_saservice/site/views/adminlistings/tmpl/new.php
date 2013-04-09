@@ -13,7 +13,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Service Provider</label>
   <div class="controls">
-    <input id="name" name="name" placeholder="Name of Service Provider" class="input-xxlarge" required="" type="text">
+    <input id="service_provider" name="service_provider" placeholder="Name of Service Provider" class="input-xxlarge" required="" type="text">
     <p class="help-block"></p>
   </div>
 </div>
@@ -84,7 +84,8 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Physical Address</label>
   <div class="controls">                     
-    <input id="physical_address" name="physical_address" placeholder="Enter address here..." class="input-xxlarge" required="" type="text">
+    <input id="physical_address" name="physical_address" placeholder="Enter address here..." class="input-xxlarge" required="" type="text"> 
+    <input class="btn" type="button" value="find" id="find" />
     <input id="formatted_address" name="formatted_address" class="input-xxlarge" type="hidden">
   </div>
 </div>
@@ -159,7 +160,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Categories</label>
   <div class="controls">
-    <input name="categories" placeholder="e.g Building, Repair, Plumbing" class="input-xxlarge" type="text">
+    <?php echo $this->categoriesHTML; ?>
   </div>
 </div>
 
@@ -207,7 +208,7 @@ echo $this->loadTemplate('head');
 </div>
 
 <input type="hidden" name="option" value="com_saservice" />
-<input type="hidden" name="task" value="adminlistings.savelisting" />
+<input type="hidden" name="task" value="adminlistings.add" />
 <?php echo JHtml::_('form.token'); ?>
 
 <!-- Button (Double) -->
@@ -215,7 +216,7 @@ echo $this->loadTemplate('head');
   <label class="control-label"></label>
   <div class="controls">
     <button id="submit" type="submit" name="submit" class="btn btn-success">Create Listing</button>
-    <button id="cancel" name="cancel" class="btn btn-default">Cancel</button>
+    <a id="cancel" href="<?php echo JRoute::_('index.php?option=com_saservice&view=adminlistings'); ?>" class="btn btn-default">Cancel</a>
   </div>
 </div>
 
@@ -230,6 +231,9 @@ echo $this->loadTemplate('head');
         $('#physical_address').geocomplete({
             details: '#admin',
             componentRestrictions: {country: 'za'}
+        })
+        $('#find').on('click', function () {
+            $('#physical_address').trigger('geocode');
         });
     });
 }(jQuery));

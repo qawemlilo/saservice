@@ -9,6 +9,7 @@ jimport('joomla.filesystem.file');
 class SaServiceControllerAdminlistings extends JController
 {
     private $refer;
+    private $application;
     
     
     public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true)) {
@@ -17,19 +18,42 @@ class SaServiceControllerAdminlistings extends JController
     
     
     
-    
-    public function savelisting () {
+    public function remove () {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         
         $application =& JFactory::getApplication();
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $model =& $this->getModel('adminlistings');
+        $listings = JRequest::getVar('listings', null, 'post', 'array');
+        
+        if (is_array($listings) && !empty($listings) && count($listings) > 0) {
+            if (!$model->removeListing($listings)) {
+                $application->redirect($refer, 'Error! Failed to delete Listing(s)', 'error');
+            }
+            else {
+                $application->redirect($refer, 'Listing(s) successfully deleted!', 'success');
+            }
+        }
+        else {
+            $application->redirect($refer, 'Error! No listings were selected', 'error');
+        }
+    }
+    
+    
+    
+    
+    public function add () {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $this->application =& JFactory::getApplication();
         $this->refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model =& $this->getModel('admin');
+        $model =& $this->getModel('adminlistings');
         $form = array();
         $slides = array();
         $categories = array();
         
         // General Info
-        $form['name'] = JRequest::getVar('name', '', 'post', 'string');
+        $form['name'] = JRequest::getVar('service_provider', '', 'post', 'string');
         $form['email'] = JRequest::getVar('email', '', 'post', 'string');
         $form['phone'] = JRequest::getVar('phone', '', 'post', 'string');
         $form['cell'] = JRequest::getVar('cell', '', 'post', 'string');
@@ -51,7 +75,7 @@ class SaServiceControllerAdminlistings extends JController
         
         // Business Info
         $form['slogan'] = JRequest::getVar('slogan', '', 'post', 'string');
-        $categories = JRequest::getVar('categories', '', 'post', 'array');
+        $categories = JRequest::getVar('categories', null, 'post', 'array');
         $form['services_offered'] = JRequest::getVar('services', '', 'post', 'string');
         $form['aboutus'] = JRequest::getVar('aboutus', '', 'post', 'string');       
         
@@ -64,65 +88,44 @@ class SaServiceControllerAdminlistings extends JController
         $slides[] = JRequest::getVar('slide4', null, 'files', 'array');
         
         if (!($id = $model->addListing($form))) {
-            $application->redirect($this->refer, 'Error! Failed to save category', 'error');
+            $this->application->redirect($this->refer, 'Error! Failed to save category', 'error');
         }
         else {
             $listingFolder = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id;
             $showcaseFolder = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'showcase';
             
             if ($this->createFolder($listingFolder)) {
-                if (isset($logo)) {
+                if ($logo['name']) {
                     $logofilename = JFile::makeSafe($logo['name']);
                     $logoExt = strtolower(JFile::getExt($logofilename));
                     $logopath = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'logo.' . $logoExt;
                 
                     if (!$this->upload($logo['tmp_name'], $logopath)) {
-                        $application->redirect($this->refer, 'Error! Failed to load the logo', 'error');
+                        $this->application->redirect($this->refer, 'Error! Failed to load the logo', 'error');
                         exit();
                     }
                 }
                 
                 if ($this->createFolder($showcaseFolder)) {
                     
-                    if(!$this->addSlides($id, $slides)) {
-                        application->redirect($this->refer, "Error! Failed to upload a slide image", "error");
+                    if (!$this->addSlides($id, $slides)) {
+                        $this->application->redirect($this->refer, "Error! Failed to upload a slide image", "error");
                     }
                     
-                    foreach ($categories as $category) {
-                        $model->addCategory((int)$id, (int)$category);
-                    }                    
+                    if (is_array($categories) && count($categories) > 0) {
+                        if (!$model->saveListingCategory((int)$id, $categories)) {
+                            $this->application->redirect($this->refer, 'Error! Failed to categories', 'error');
+                        }
+                    }
                     
-                    $application->redirect($this->refer, 'Listing successfully saved!', 'success');
+                    $this->application->redirect($this->refer, 'Listing successfully saved!', 'success');
                 }
                 else {
-                    $application->redirect($this->refer, 'Error! Failed to create showcase folder', 'error');
+                    $this->application->redirect($this->refer, 'Error! Failed to create showcase folder', 'error');
                 }
             }
             else {
-                $application->redirect($this->refer, 'Error! Failed to create listing folder', 'error');
-            }
-        }
-    }
-    
-    
-    
-    
-    
-    private function addCategories($id, $slides) {
-        if (!is_array($slides)) {
-            return false;
-        }
-        
-        for ($i=0; $i < count($slides); $i++) {
-            if ($slides[$i]) {
-                $slidefilename = JFile::makeSafe($slides[$i]['name']);
-                $slideExt = strtolower(JFile::getExt($slidefilename));
-                $slidepath = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'showcase' . DS . "slide_{$i}." . $slideExt;
-                
-                if (!$this->upload($slides[$i]['tmp_name'], $slidepath)) {
-                    $application->redirect($this->refer, "Error! Failed to load the slide_{$i}", "error");
-                    exit();
-                }
+                $this->application->redirect($this->refer, 'Error! Failed to create listing folder', 'error');
             }
         }
     }
@@ -137,13 +140,13 @@ class SaServiceControllerAdminlistings extends JController
         }
         
         for ($i=0; $i < count($slides); $i++) {
-            if ($slides[$i]) {
+            if ($slides[$i]['name']) {
                 $slidefilename = JFile::makeSafe($slides[$i]['name']);
                 $slideExt = strtolower(JFile::getExt($slidefilename));
                 $slidepath = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'showcase' . DS . "slide_{$i}." . $slideExt;
                 
                 if (!$this->upload($slides[$i]['tmp_name'], $slidepath)) {
-                    $application->redirect($this->refer, "Error! Failed to load the slide_{$i}", "error");
+                    $this->application->redirect($this->refer, "Error! Failed to load the slide_{$i}", "error");
                     exit();
                 }
             }
