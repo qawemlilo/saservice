@@ -96,9 +96,9 @@ echo $this->loadTemplate('head');
         });
         
         $('#edit-category').on('click', function () {
-            $('#hidden-task').value('admincategories.edit');
+            $('#hidden-task').val('admincategories.edit');
             
-            if ($('#hidden-task').value() === 'admincategories.edit') {
+            if ($('#hidden-task').val() === 'admincategories.edit') {
                 $('#categories-form').submit();
             }
             

@@ -13,7 +13,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Category Name</label>
   <div class="controls">
-    <input id="name" name="name" placeholder="Name of Category" class="input-xxlarge" required="" type="text">
+    <input id="name" name="name" placeholder="Name of Category" value="<?php if($this->category) echo $this->category->name; ?>" class="input-xxlarge" required="" type="text">
     <p class="help-block"></p>
   </div>
 </div>
@@ -22,7 +22,7 @@ echo $this->loadTemplate('head');
 if($this->categoriesHTML) {
 ?>
 <div class="control-group">
-  <label class="control-label">Parent Category</label>
+  <label class="control-label">Categories</label>
   <div class="controls">
     <?php echo $this->categoriesHTML; ?>
   </div>
@@ -39,7 +39,7 @@ if($this->categoriesHTML) {
 </div>
 
 <input type="hidden" name="option" value="com_saservice" />
-<input type="hidden" name="task" value="admincategories.add" />
+<input type="hidden" name="task" value="admincategories.save" />
 <?php echo JHtml::_('form.token'); ?>
 
 <!-- Button (Double) -->

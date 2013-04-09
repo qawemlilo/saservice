@@ -62,16 +62,15 @@ class SaServiceModelAdmincategories extends JModelItem
         
     
     
-    public function getCategory($id = 0) {
-        if ($id) {
-            $table = $this->getTable();
-            $table->load($id);
-                
-            return $table;
-        }
+    public function getCategory() {
+        $id = JRequest::getVar('id', 0, 'GET', 'int');
         
-        return false;
+        $table = $this->getTable();
+        $row = $table->load($id);
+        
+        return $row;
     }
+    
 
 
 
@@ -125,10 +124,9 @@ class SaServiceModelAdmincategories extends JModelItem
     
     public function getCategories() {
         $query = $this->_buildQuery();
-        
         $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
-		return $this->_data;
+        
+        return $this->_data;
     }
     
     
@@ -140,6 +138,20 @@ class SaServiceModelAdmincategories extends JModelItem
         $query = "SELECT * FROM #__ss_categories ORDER BY name ASC";
         $db->setQuery($query);
         $result = $db->loadObjectList();
+        
+        return $result;
+    }
+    
+    
+    
+    
+    public function getListingCats() {
+        $id = JRequest::getVar('id', '', 'GET', 'int');
+        
+        $db =& JFactory::getDBO();
+        $query = "SELECT category_id FROM #__ss_category_listing WHERE listing_id=$id";
+        $db->setQuery($query);
+        $result = $db->loadArray();
         
         return $result;
     }

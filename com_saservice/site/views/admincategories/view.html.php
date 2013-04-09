@@ -10,16 +10,23 @@ jimport('joomla.application.component.view');
 
 class SaServiceViewAdmincategories extends JView
 {
-    
-    
-	// Overwriting JView display method
-	function display($tpl = null) 
-	{
-        $this->layout = JRequest::getVar('layout', '', 'GET');
+    // Overwriting JView display method
+    function display($tpl = null) {
+        $this->layout = JRequest::getVar('layout', '', 'GET', 'string');
+        $this->category = false;
         
         if ($this->layout == 'new' || $this->layout == 'edit') {
-            $this->categories = $this->get('FormCategories'); 
-            $this->categoriesHTML = $this->createDropDown($this->categories);
+            $this->categories = $this->get('FormCategories');
+           
+        
+            if ($this->layout == 'edit') {
+                $this->category = $this->get('Category');
+                
+                $this->categoriesHTML = $this->createDropDown($this->categories, $this->category->id);
+            }
+            else {
+                $this->categoriesHTML = $this->createDropDown($this->categories);
+            }
         }
         else {
             $this->categories = $this->get('Categories');
@@ -31,7 +38,7 @@ class SaServiceViewAdmincategories extends JView
     
     
     
-    function createDropDown ($categories) {
+    function createDropDown ($categories, $id) {
         $select = '<select name="parent_id" class="input-xlarge">';
         $select .= '<option value="0">Select parent category</option>';
         
@@ -40,7 +47,12 @@ class SaServiceViewAdmincategories extends JView
         }
         
         foreach ($categories as $category) {
-            $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';   
+            if ($id && ($id == $category->id)) {
+                $select .= '<option selected="selected" value=" ' . $category->id . ' ">' . $category->name . '</option>'; 
+            }
+            else {
+                $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';
+            }  
         }
         
         $select .= '</select>';
