@@ -14,7 +14,8 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
 <div class="row-fluid" id="ss_listing">
   <div class="span8">
       <div class="row-fluid">
-        <p><i class="icon-tags"></i> <span class="label  label-warning">Web designers</span></p>
+      
+        <?php echo $this->tags; ?>
       
         <h1><?php echo $this->listing->name; ?></h1>
       
@@ -22,43 +23,16 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
       </div>
       <div class="row-fluid">
        <div class="span8">
-        <div id="myCarousel" class="carousel slide">
-          <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-          </ol>
-      <!-- Carousel items -->
-          <div class="carousel-inner">
-            <div class="active item">
-              <img alt="" style="height: 250px" src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/slides/listing_1/beachbeyondwebsite.png'; ?>" />
-            </div>
-            <div class="item">
-              <img alt="" style="height: 250px" src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/slides/listing_1/juciymediawebsitedesign.png'; ?>" />
-            </div>
-            <div class="item">
-              <img alt="" style="height: 250px" src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/slides/listing_1/mojovidswebsite.png'; ?>" />
-            </div>
-          </div>
-          <!-- Carousel nav -->
-          <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-          <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-        </div> 
+          <?php echo $this->slider; ?>
        </div>
       
        <div class="span4">
         <h2 style="margin-top: 5px">Services Offered</h2>
         <ul class="unstyled services-offered">
-          <li>Web Design</li>
-          <li>Web Hosting</li>
-          <li>Logo Design</li>
-          <li>Custom Development</li>
-          <li>Search Engine Optimization</li>
-          <li>Web Design</li>
-          <li>Web Hosting</li>
-          <li>Logo Design</li>
-          <li>Custom Development</li>
-          <li>Search Engine Optimization</li>
+          <?php 
+            $listHtml = $this->createLists($this->listing->services_offered);
+            echo $listHtml;
+          ?>
         </ul>
        </div>
       </div>
@@ -93,6 +67,8 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
            </div>
          </div>
          <p><button class="btn btn-large btn-success" type="submit">Submit</button></p>
+         <input type="hidden" name="listing_id" value="<?php echo $this->listing->id; ?>" />
+         <?php echo JHtml::_('form.token'); ?>
        </form>
       </div>
     </div>  
@@ -112,7 +88,7 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
       <ul class="nav nav-list panel-list" style="margin-top: 0px">
         <li><a href="mailto:<?php echo $this->listing->email; ?>" target="_blanck"><i class="icon-envelope"></i><?php echo $this->listing->email; ?></a></li>
         <li><i class="icon-comment"></i> 0<?php echo $this->listing->phone; ?></li>
-        <li><a href="http://www.scottwebdesigns.co.za" target="_blanck"><i class="icon-globe"></i> http://www.scottwebdesigns.co.za</a></li>
+        <li><a href="<?php echo $this->listing->website; ?>" target="_blanck"><i class="icon-globe"></i> <?php echo $this->listing->website; ?></a></li>
       </ul>
     </div>
   </div> 

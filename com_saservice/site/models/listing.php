@@ -27,4 +27,17 @@ class SaServiceModelListing extends JModelItem
         
         return $table;
     }
+    
+    
+    
+    public function getCategories() {
+        $id = JRequest::getInt('id');
+        
+        $db =& JFactory::getDBO();
+        $query = "SELECT id, name FROM #__ss_categories WHERE id IN (SELECT category_id FROM #__ss_category_listing WHERE listing_id=$id)";
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        
+        return $result;
+    }
 }

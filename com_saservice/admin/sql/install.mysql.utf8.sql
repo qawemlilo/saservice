@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `#__ss_listings` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(140) NOT NULL,
   `slogan` varchar(140) NOT NULL,
+  `website` varchar(250) NOT NULL,
   `email` varchar(100) NOT NULL default '',
   `cell` int(12) default NULL,
   `phone` int(13) NOT NULL,

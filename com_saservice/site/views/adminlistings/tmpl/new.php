@@ -29,6 +29,15 @@ echo $this->loadTemplate('head');
 
 <!-- Text input-->
 <div class="control-group">
+  <label class="control-label">Website</label>
+  <div class="controls">
+    <input id="og_website" name="og_website" placeholder="Enter Email Address" class="input-xxlarge" type="text">
+    <p class="help-block"></p>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
   <label class="control-label">Tel Number</label>
   <div class="controls">
     <input id="phone" name="phone" placeholder="Telephone Number" class="input-xxlarge" required="" type="text">

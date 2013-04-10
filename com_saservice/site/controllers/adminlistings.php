@@ -55,6 +55,7 @@ class SaServiceControllerAdminlistings extends JController
         // General Info
         $form['name'] = JRequest::getVar('service_provider', '', 'post', 'string');
         $form['email'] = JRequest::getVar('email', '', 'post', 'string');
+        $form['website'] = JRequest::getVar('og_website', '', 'post', 'string');
         $form['phone'] = JRequest::getVar('phone', '', 'post', 'int');
         $form['cell'] = JRequest::getVar('cell', '', 'post', 'int');
         $form['fax'] = JRequest::getVar('fax', '', 'post', 'int');
@@ -87,6 +88,10 @@ class SaServiceControllerAdminlistings extends JController
         $slides[] = JRequest::getVar('slide3', null, 'files', 'array');
         $slides[] = JRequest::getVar('slide4', null, 'files', 'array');
         
+        
+        if (!$form['services_offered']) {
+            $form['services_offered'] = implode(",", $categories);   
+        }
         
         if (!($id = $model->addListing($form))) {
             $this->application->redirect($this->refer, 'Error! Failed to save listing', 'error');
