@@ -63,12 +63,14 @@ class SaServiceModelAdmincategories extends JModelItem
     
     
     public function getCategory() {
-        $id = JRequest::getVar('id', 0, 'GET', 'int');
+        $id = JRequest::getInt('id');
+        $table =& $this->getTable();
         
-        $table = $this->getTable();
-        $row = $table->load($id);
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError() );
+        }
         
-        return $row;
+        return $table;
     }
     
 
@@ -101,16 +103,18 @@ class SaServiceModelAdmincategories extends JModelItem
     
     
     
-    public function addCategory($arr = array()) {
+    public function addCategory($arr) {
         
         if (is_array($arr) && count($arr) > 0) {
-            $table = $this->getTable();
+            $table =& $this->getTable();
             
             if (!$table->bind( $arr )) {
-                return JError::raiseWarning( 500, $table->getError() );
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
             }
             if (!$table->store( $arr )) {
-                return JError::raiseWarning( 500, $table->getError() );
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
             }
                 
             return $table->id;
@@ -118,6 +122,31 @@ class SaServiceModelAdmincategories extends JModelItem
         
         return false;
     }
+    
+    
+    
+    public function updateCategory($id, $arr) {
+        $table =& $this->getTable();
+            
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError() );
+            return false;
+        }
+        
+        if (!$table->bind($arr)) {
+            JError::raiseWarning( 500, $table->getError() );
+            return false;
+        }
+        
+        if (!$table->store($arr)) {
+            JError::raiseWarning( 500, $table->getError() );
+            return false;
+        }
+
+        
+        return true;
+    }
+    
     
     
     

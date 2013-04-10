@@ -37,9 +37,9 @@ if($this->categoriesHTML) {
     <p class="help-block"></p>
   </div>
 </div>
-
+<input type="hidden" name="id" value="<?php echo $this->category->id; ?>" />
 <input type="hidden" name="option" value="com_saservice" />
-<input type="hidden" name="task" value="admincategories.save" />
+<input type="hidden" name="task" value="admincategories.update" />
 <?php echo JHtml::_('form.token'); ?>
 
 <!-- Button (Double) -->

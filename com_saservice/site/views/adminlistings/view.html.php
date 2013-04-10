@@ -43,11 +43,11 @@ class SaServiceViewAdminlistings extends JView
                     $select .= '<option selected="selected" value="' . $category->id . '">' . $category->name . '</option>';
                 }
                 else {
-                    $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';
+                    $select .= '<option value="' . $category->id . '">' . $category->name . '</option>';
                 }
             }
             else {
-                $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';
+                $select .= '<option value="' . $category->id . '">' . $category->name . '</option>';
             }
         }
         

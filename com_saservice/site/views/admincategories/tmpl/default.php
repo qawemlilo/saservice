@@ -11,7 +11,7 @@ echo $this->loadTemplate('head');
   </form>
 </div>
 <br>
-<div class="row-fluid">
+<div class="row-fluid" id="ss-admin-table">
 <form action="<?php echo JRoute::_('index.php?option=com_saservice&view=admincategories'); ?>" method="post" id="categories-form" name="categories-form">
   <table class="table table-bordered table-striped">
     <colgroup>
@@ -38,7 +38,7 @@ echo $this->loadTemplate('head');
           <input type="checkbox" value="<?php echo $category->id; ?>" name="categories" />
         </td>
         <td>
-          <a href="#"><?php echo $category->name; ?></a>
+          <a href="<?php echo JRoute::_('index.php?com_saservice&view=admincategories&layout=edit&id=' . $category->id ); ?>"><?php echo $category->name; ?></a>
         </td>
         <td>
           <?php echo $category->id; ?>

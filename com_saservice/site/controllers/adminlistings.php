@@ -87,8 +87,9 @@ class SaServiceControllerAdminlistings extends JController
         $slides[] = JRequest::getVar('slide3', null, 'files', 'array');
         $slides[] = JRequest::getVar('slide4', null, 'files', 'array');
         
+        
         if (!($id = $model->addListing($form))) {
-            $this->application->redirect($this->refer, 'Error! Failed to save category', 'error');
+            $this->application->redirect($this->refer, 'Error! Failed to save listing', 'error');
         }
         else {
             $listingFolder = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id;
@@ -101,20 +102,17 @@ class SaServiceControllerAdminlistings extends JController
                     $logopath = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'logo.' . $logoExt;
                 
                     if (!$this->upload($logo['tmp_name'], $logopath)) {
-                        $this->application->redirect($this->refer, 'Error! Failed to load the logo', 'error');
-                        exit();
+                        JError::raiseWarning( 500, 'Error! Failed to load the logo');
                     }
                 }
                 
                 if ($this->createFolder($showcaseFolder)) {
+                    $this->addSlides($id, $slides);
                     
-                    if (!$this->addSlides($id, $slides)) {
-                        $this->application->redirect($this->refer, "Error! Failed to upload a slide image", "error");
-                    }
-                    
-                    if (is_array($categories) && count($categories) > 0) {
+                    if (!empty($categories)) {
                         if (!$model->saveListingCategory((int)$id, $categories)) {
                             $this->application->redirect($this->refer, 'Error! Failed to categories', 'error');
+                            exit();
                         }
                     }
                     
@@ -135,19 +133,15 @@ class SaServiceControllerAdminlistings extends JController
     
     
     private function addSlides($id, $slides) {
-        if (!is_array($slides)) {
-            return false;
-        }
-        
         for ($i=0; $i < count($slides); $i++) {
-            if ($slides[$i]['name']) {
-                $slidefilename = JFile::makeSafe($slides[$i]['name']);
-                $slideExt = strtolower(JFile::getExt($slidefilename));
+            $slidefilename = JFile::makeSafe($slides[$i]['name']);
+            $slideExt = strtolower(JFile::getExt($slidefilename));
+            
+            if ($slideExt) {
                 $slidepath = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'showcase' . DS . "slide_{$i}." . $slideExt;
                 
                 if (!$this->upload($slides[$i]['tmp_name'], $slidepath)) {
-                    $this->application->redirect($this->refer, "Error! Failed to load the slide_{$i}", "error");
-                    exit();
+                    JError::raiseWarning( 500, "Error! Failed to load the slide_{$i}");
                 }
             }
         }

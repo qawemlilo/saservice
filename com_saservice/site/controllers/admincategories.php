@@ -42,6 +42,32 @@ class SaServiceControllerAdmincategories extends JController
     
     
     
+    public function update () {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $application =& JFactory::getApplication();
+        $model = $this->getModel('admincategories');
+        $form = array();
+        
+        $id = JRequest::getVar('id', '', 'post', 'int');
+        $form['name'] = JRequest::getVar('name', '', 'post', 'string');
+        $form['parent_id'] = JRequest::getVar('parent_id', 0, 'post', 'int');
+        $image = JRequest::getVar('image', null, 'files', 'array');
+        
+        $refer = JRoute::_('index.php?option=com_saservice&view=admincategories');
+        
+        if (!$model->updateCategory((int)$id, $form)) {
+            $application->redirect($refer, 'Error! Failed to update category', 'error');
+        }
+        else {
+            $application->redirect($refer, 'Category successfully saved!', 'success');
+        }
+    }
+    
+    
+    
+    
+    
     public function remove () {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         
@@ -68,7 +94,6 @@ class SaServiceControllerAdmincategories extends JController
         
         $application =& JFactory::getApplication();
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model = $this->getModel('admincategories');
         $categories = JRequest::getVar('categories', null, 'post', 'array');
         
         if (is_array($categories) && !empty($categories) && count($categories) > 0) {

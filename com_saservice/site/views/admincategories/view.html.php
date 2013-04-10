@@ -21,8 +21,8 @@ class SaServiceViewAdmincategories extends JView
         
             if ($this->layout == 'edit') {
                 $this->category = $this->get('Category');
-                
-                $this->categoriesHTML = $this->createDropDown($this->categories, $this->category->id);
+
+                $this->categoriesHTML = $this->createDropDown($this->categories, $this->category->parent_id);
             }
             else {
                 $this->categoriesHTML = $this->createDropDown($this->categories);
@@ -38,7 +38,7 @@ class SaServiceViewAdmincategories extends JView
     
     
     
-    function createDropDown ($categories, $id) {
+    function createDropDown ($categories, $id = false) {
         $select = '<select name="parent_id" class="input-xlarge">';
         $select .= '<option value="0">Select parent category</option>';
         
@@ -48,10 +48,10 @@ class SaServiceViewAdmincategories extends JView
         
         foreach ($categories as $category) {
             if ($id && ($id == $category->id)) {
-                $select .= '<option selected="selected" value=" ' . $category->id . ' ">' . $category->name . '</option>'; 
+                $select .= '<option selected="selected" value="' . $category->id . '">' . $category->name . '</option>'; 
             }
             else {
-                $select .= '<option value=" ' . $category->id . ' ">' . $category->name . '</option>';
+                $select .= '<option value="' . $category->id . '">' . $category->name . '</option>';
             }  
         }
         

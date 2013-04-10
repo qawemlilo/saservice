@@ -43,16 +43,19 @@ class SaServiceModelAdminlistings extends JModelItem
     
     public function saveListingCategory($listingId, $categoryids) 
     {
-        if (is_array($categoryids) && count($categoryids) > 0) {
+        if ($listingId && is_array($categoryids)) {
             $query = "INSERT INTO #__ss_category_listing (listing_id, category_id) VALUES ";
             $flag = false;
+            
             foreach ($categoryids as $categoryid) {
+                $id = (int)$categoryid;
+                
                 if (!$flag) {
-                    $query .= "($listingId, $categoryid)";
+                    $query .= "({$listingId}, {$id})";
                     $flag = true;
                 }
                 else {
-                    $query .= ", ($listingId, $categoryid)";
+                    $query .= ", ({$listingId}, {$id})";
                 }
             }
             
@@ -60,6 +63,10 @@ class SaServiceModelAdminlistings extends JModelItem
             $db->setQuery($query);
         
 		    $result = $db->query();
+            
+            if (!$result) {
+                JError::raiseWarning( 500, $db->getErrorMsg() );
+            }
             
             return $result;
         }
@@ -154,10 +161,12 @@ class SaServiceModelAdminlistings extends JModelItem
             $table = $this->getTable();
             
             if (!$table->bind( $arr )) {
-                return JError::raiseWarning( 500, $table->getError() );
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
             }
             if (!$table->store( $arr )) {
-                return JError::raiseWarning( 500, $table->getError() );
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
             }
                 
             return $table->id;
