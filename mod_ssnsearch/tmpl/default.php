@@ -12,21 +12,23 @@ $document->addStyleDeclaration($style);
 ?>
 
 <div class="well">
-  <form id="saservice-search" method="get" name="saservice-search" action="<?php echo JRoute::_('index.php'); ?>">
+  <form id="saservice-search" method="post" name="saservice-search" action="<?php echo JRoute::_('index.php?option=com_saservice&view=listings'); ?>">
     <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" style="width:42px" title="Search" alt="Search" />
     
     <input type="text" name="service" data-items="8" data-provide="typeahead" autocomplete="off" id="service-field" placeholder="Service " style="padding: 10px; height: 30px; font-size:24px; width:350px; margin-right: 20px;" data-source='<?php echo $categoriesArray; ?>' />
-    
     <input type="text" name="location" id="location-field" placeholder="Your location or address" style="padding: 10px; font-size:24px; width:450px; height: 30px;" />
     
-    <input type="hidden" name="option" value="com_saservice" />
-    <input type="hidden" name="view" value="category" />
+    <?php echo JHtml::_('form.token'); ?>
+    <input id="administrative_area_level_1" name="administrative_area_level_1" type="hidden" />
+    <input id="locality" name="locality" type="hidden" />
+    <input id="sublocality" name="sublocality" type="hidden" />
   </form>
 </div>
 
-<script type="text/javascript" src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/bootstrap-typeahead.js' ?>"></script>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
-<script type="text/javascript" src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/jquery.geocomplete.min.js' ?>"></script>
+<script>window.jQuery || document.write('<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/jquery.js' ?>"><\/script>')</script>
+<script>document.write('<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/bootstrap-typeahead.js' ?>"><\/script>')</script>
+<script>document.write('<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"><\/script>')</script>
+<script>document.write('<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/jquery.geocomplete.min.js' ?>"><\/script>')</script>
 <script>
     (function($){
         var input = document.createElement('input'), service, location;
@@ -40,7 +42,10 @@ $document->addStyleDeclaration($style);
         });
         
         $("#location-field")
-          .geocomplete({componentRestrictions: {country: 'za'}})
+          .geocomplete({
+              componentRestrictions: {country: 'za'},
+              details: '#saservice-search'
+          })
           .bind("geocode:result", function(event, result) {
               $("#location-field").val(result.formatted_address);
               $("#saservice-search").submit();            

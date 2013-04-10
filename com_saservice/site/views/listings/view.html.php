@@ -9,11 +9,17 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the HelloWorld Component
  */
-class SaServiceViewCategory extends JView
+class SaServiceViewListings extends JView
 {
 	// Overwriting JView display method
 	function display($tpl = null) 
 	{
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $this->listings = $this->get('Search');
+
+        $this->service = JRequest::getVar('service');
+        
 		parent::display($tpl);
 	}
 }

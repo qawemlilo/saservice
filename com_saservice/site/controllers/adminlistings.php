@@ -55,9 +55,9 @@ class SaServiceControllerAdminlistings extends JController
         // General Info
         $form['name'] = JRequest::getVar('service_provider', '', 'post', 'string');
         $form['email'] = JRequest::getVar('email', '', 'post', 'string');
-        $form['phone'] = JRequest::getVar('phone', '', 'post', 'string');
-        $form['cell'] = JRequest::getVar('cell', '', 'post', 'string');
-        $form['fax'] = JRequest::getVar('fax', '', 'post', 'string');
+        $form['phone'] = JRequest::getVar('phone', '', 'post', 'int');
+        $form['cell'] = JRequest::getVar('cell', '', 'post', 'int');
+        $form['fax'] = JRequest::getVar('fax', '', 'post', 'int');
         
         // Social Pages
         $form['twitter'] = JRequest::getVar('twitter', '', 'post', 'string');

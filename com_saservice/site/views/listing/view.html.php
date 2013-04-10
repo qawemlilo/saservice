@@ -14,7 +14,8 @@ class SaServiceViewListing extends JView
 	// Overwriting JView display method
 	function display($tpl = null) 
 	{
-		// Display the view
+		$this->listing = $this->get('Listing');
+        
 		parent::display($tpl);
 	}
 }

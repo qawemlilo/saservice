@@ -59,7 +59,7 @@ echo $this->loadTemplate('head');
 <div class="row-fluid" style="text-align: center">
     <?php echo $this->pagination->getPagesLinks(); ?>
 </div>
-
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script type="text/javascript">
 (function ($) {
     $(function () {

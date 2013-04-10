@@ -16,9 +16,9 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
       <div class="row-fluid">
         <p><i class="icon-tags"></i> <span class="label  label-warning">Web designers</span></p>
       
-        <h1>Scott Web Design</h1>
+        <h1><?php echo $this->listing->name; ?></h1>
       
-        <h3 style="margin:-8px 0px 20px 0px;">Affordable Website Design</h3>
+        <h3 style="margin:-8px 0px 20px 0px;"><?php echo $this->listing->slogan; ?></h3>
       </div>
       <div class="row-fluid">
        <div class="span8">
@@ -65,7 +65,7 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
       
       <div class="row-fluid">
         <h2>About Us</h2>
-        <p>Scott Web Designs Studio's was established in early 2009 by young energetic entrepreneur Scott. With the aim of creating high quality websites to small to medium sized business at affordable rates. Service delivery is number one on our list, as most South Africans can relate to poor service & how frustrating it can be..We believe in one on one service and listening to your needs as a business and formulating a package and price that will suite you & your business. We have had extensive experience in the design & web design fields, and we keep learning new skills each day that benefit our clients. We keep up to date with the latest technology and design trends, so you always get something that is fresh and pleasing to the eyes, & wallet. So don't hesitate to contact us today to find out how we can assist you with your project.</p>
+        <p><?php echo $this->listing->aboutus; ?></p>
       </div>
       
       <div class="row-fluid">
@@ -99,7 +99,7 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
   
   <div class="span4">
     <div>
-      <img src="<?php echo JURI::base() . 'components/com_saservice/asserts/img/logo.png'; ?>" />
+      <img src="<?php echo JURI::base() . 'media/com_saservice/listings/listing_' . $this->listing->id . '/logo.png'; ?>" />
     </div>
     <h3>Location</h3>
     <div class="well" style="margin: 0px 0px 5px 0px; padding: 5px; margin-top: 10px">
@@ -110,8 +110,8 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
     <h3>Contact Details</h3>
     <div class="row-fluid">
       <ul class="nav nav-list panel-list" style="margin-top: 0px">
-        <li><a href="mailto:info@scottwebdesigns.co.za" target="_blanck"><i class="icon-envelope"></i> info@scottwebdesigns.co.za</a></li>
-        <li><i class="icon-comment"></i> 031 309 2226</li>
+        <li><a href="mailto:<?php echo $this->listing->email; ?>" target="_blanck"><i class="icon-envelope"></i><?php echo $this->listing->email; ?></a></li>
+        <li><i class="icon-comment"></i> 0<?php echo $this->listing->phone; ?></li>
         <li><a href="http://www.scottwebdesigns.co.za" target="_blanck"><i class="icon-globe"></i> http://www.scottwebdesigns.co.za</a></li>
       </ul>
     </div>
@@ -124,8 +124,8 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
     jQuery(function() {
       var map = new GMaps({
         div: '#ss_listingmap',
-        lat: -12.043333,
-        lng: -77.028333
+        lat: <?php echo $this->listing->lat; ?>,
+        lng: <?php echo $this->listing->lng; ?>
       });
       
       GMaps.geocode({
