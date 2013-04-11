@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); // no direct access 
 
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JURI::base() . 'modules/mod_ssnsearch/asserts/css/bootstrap.min.css');
+$document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bootstrap.min.css');
 $style = '  
   ul.dropdown-menu {
     width: 380px !important;

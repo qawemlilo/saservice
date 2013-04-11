@@ -75,6 +75,43 @@ class SaServiceModelAdminlistings extends JModelItem
     }
     
     
+    public function updateListingCategory($listingId, $categoryids) 
+    {
+        if ($listingId && is_array($categoryids)) {
+        
+            $this->removeCategories($listingId);
+            
+            $query = "INSERT INTO #__ss_category_listing (listing_id, category_id) VALUES ";
+            $flag = false;
+            
+            foreach ($categoryids as $categoryid) {
+                $id = (int)$categoryid;
+                
+                if (!$flag) {
+                    $query .= "({$listingId}, {$id})";
+                    $flag = true;
+                }
+                else {
+                    $query .= ", ({$listingId}, {$id})";
+                }
+            }
+            
+            $db =& JFactory::getDBO();
+            $db->setQuery($query);
+        
+		    $result = $db->query();
+            
+            if (!$result) {
+                JError::raiseWarning( 500, $db->getErrorMsg() );
+            }
+            
+            return $result;
+        }
+        
+        return false;
+    }
+    
+    
     
     
     
@@ -115,15 +152,15 @@ class SaServiceModelAdminlistings extends JModelItem
     
     
     
-    public function getListing($id = 0) {
-        if ($id) {
-            $table = $this->getTable();
-            $table->load($id);
-                
-            return $table;
+    public function getListing() {
+        $id = JRequest::getInt('id');
+        $table = $this->getTable();
+        
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError() );
         }
         
-        return false;
+        return $table;
     }
 
 
@@ -149,7 +186,23 @@ class SaServiceModelAdminlistings extends JModelItem
         }
         
         return false;
-    }     
+    } 
+
+
+    public function removeCategories($id) {   
+        if ($id) {
+
+            $db =& JFactory::getDBO();
+            $query = "DELETE FROM #__ss_category_listing WHERE listing_id = $id";
+            $db->setQuery($query);
+            
+            $result = $db->query();
+            
+            return $result;
+        }
+        
+        return false;
+    }    
     
     
     
@@ -178,6 +231,30 @@ class SaServiceModelAdminlistings extends JModelItem
     
     
     
+    public function updateListing($id, $arr) {
+        $table = $this->getTable();
+        
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError() . ' (id:' . $id . ')' );
+            return false;
+        }
+        
+        if (!$table->bind($arr)) {
+            JError::raiseWarning( 500, $table->getError() . ' (id:' . $id . ')' );
+            return false;
+        }
+        
+        if (!$table->store($arr)) {
+            JError::raiseWarning( 500, $table->getError() . ' (id:' . $id . ')' );
+            return false;
+        }
+                
+        return true;
+    }
+    
+    
+    
+    
     
     
     public function getListings() {
@@ -185,6 +262,21 @@ class SaServiceModelAdminlistings extends JModelItem
         $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         
         return $this->_data;
+    }
+    
+    
+    
+    
+    
+    public function getListingCats() {
+        $id = JRequest::getInt('id');
+        
+        $db =& JFactory::getDBO();
+        $query = "SELECT category_id FROM #__ss_category_listing WHERE listing_id=$id";
+        $db->setQuery($query);
+        $result = $db->loadResultArray();
+        
+        return $result;
     }
     
     

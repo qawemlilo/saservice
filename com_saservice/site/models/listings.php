@@ -36,8 +36,8 @@ class SaServiceModelListings extends JModelItem
         $query .= "FROM bzhpg_ss_listings ";
         $query .= "INNER JOIN bzhpg_ss_category_listing ON bzhpg_ss_listings.id = bzhpg_ss_category_listing.listing_id ";
         $query .= "INNER JOIN bzhpg_ss_categories ON bzhpg_ss_category_listing.category_id = bzhpg_ss_categories.id ";
-        $query .= "WHERE bzhpg_ss_listings.province = '$province' ";
-        $query .= "AND bzhpg_ss_categories.name = '$service'";
+        $query .= "WHERE bzhpg_ss_categories.name = '$service' ";
+        $query .= "AND ((bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.sublocality = '$sublocality') OR (bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.locality = '$locality') OR bzhpg_ss_listings.province = '$province')";
 
         
         $db->setQuery($query);

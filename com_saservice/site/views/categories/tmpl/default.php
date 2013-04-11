@@ -67,6 +67,25 @@ else :
 
 endif;    
 ?>
-
 </div>
 
+<script type="text/javascript">
+jQuery.noConflict();
+
+(function ($) {
+    $(function () {
+        $('.ss-categories a').on('click', function () {
+            var cat = $(this).text(), toTop = $('#toTop');
+            
+            if (toTop.length) {
+                toTop.click();    
+            }
+            
+            $('#service-field').val(cat);
+            $('#location-field').focus();
+            
+            return false;    
+        });
+    });
+}(jQuery));
+</script>

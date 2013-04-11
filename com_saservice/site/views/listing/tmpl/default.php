@@ -6,9 +6,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bootstrap.min.css');
+$document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/font-awesome.min.css');
 $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/style.css');
-$document->addScript('http://maps.google.com/maps/api/js?sensor=true');
-$document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js');
 ?>
 
 <div class="row-fluid" id="ss_listing">
@@ -44,26 +43,26 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
       
       <div class="row-fluid">
        <h2>Contact Us</h2>
-       <form method="post" action="" class="well">
+       <form method="post" name="contactusform"  id="contactusform" class="well">
          <div class="control-group">
            <label class="control-label" for="name"> <i class="icon-user"> </i> Name</label>
         
            <div class="controls controls-row">
-             <input type="text" style="margin-left: 0px" class="input-xxlarge" placeholder="Your name" name="name" id="name">
+             <input type="text" style="margin-left: 0px" class="input-xxlarge" placeholder="Your name" name="name">
            </div>
          </div>
          <div class="control-group">
            <label class="control-label" for="email"> <i class="icon-envelope"> </i> Email</label>
         
            <div class="controls">
-             <input type="text" style="margin-left: 0px" class="input-xxlarge" placeholder="Your email address" id="email" name="email">
+             <input type="text" style="margin-left: 0px" class="input-xxlarge" placeholder="Your email address" name="email">
            </div>
          </div>
          <div class="control-group">
            <label class="control-label" for="message"> <i class="icon-pencil"> </i> Message </label>
         
            <div class="controls">
-             <textarea style="margin-left: 0px" class="input-xxlarge" placeholder="Your message..." name="message" id="message" rows="3"></textarea>
+             <textarea style="margin-left: 0px" class="input-xxlarge" placeholder="Your message..." name="message" rows="3"></textarea>
            </div>
          </div>
          <p><button class="btn btn-large btn-success" type="submit">Submit</button></p>
@@ -77,27 +76,44 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
     <div>
       <img src="<?php echo JURI::base() . 'media/com_saservice/listings/listing_' . $this->listing->id . '/logo.png'; ?>" />
     </div>
-    <h3>Location</h3>
+    <h2>Location</h2>
     <div class="well" style="margin: 0px 0px 5px 0px; padding: 5px; margin-top: 10px">
       <div id="ss_listingmap" style="height: 250px;">
       
       </div>
     </div>
-    <h3>Contact Details</h3>
+    <h2>Contact Details</h2>
     <div class="row-fluid">
-      <ul class="nav nav-list panel-list" style="margin-top: 0px">
-        <li><a href="mailto:<?php echo $this->listing->email; ?>" target="_blanck"><i class="icon-envelope"></i><?php echo $this->listing->email; ?></a></li>
-        <li><i class="icon-comment"></i> 0<?php echo $this->listing->phone; ?></li>
-        <li><a href="<?php echo $this->listing->website; ?>" target="_blanck"><i class="icon-globe"></i> <?php echo $this->listing->website; ?></a></li>
+      <ul class="nav nav-list panel-list" style="margin-top: 0px"> 
+        <li><a onclick="return false;" href="tel:0'<?php echo $this->listing->phone; ?>"><i class="icon-phone"></i> 0<?php echo $this->listing->phone; ?></a></li>
+        <?php 
+            if($this->listing->fax) echo '<li style="line-height: 26px;"><a onclick="return false;" href="tel:0' . $this->listing->fax . '"><i class="icon-print"></i> 0' .$this->listing->fax . '</a></li>'; 
+        ?>
+        <?php 
+          if($this->listing->cell) echo '<li style="line-height: 26px;"><a onclick="return false;" href="tel:0' . $this->listing->cell . '"><i class="icon-mobile-phone"></i> 0' . $this->listing->cell . '</a></li>'; 
+        ?>
+        <li style="line-height: 26px;"><a href="mailto:<?php echo $this->listing->email; ?>" target="_blanck"><i class="icon-envelope-alt"></i> <?php echo $this->listing->email; ?></a></li>
+        <?php 
+          if($this->listing->website) echo '<li style="line-height: 26px;"><a href="' . $this->listing->website . '" target="_blanck"><i class="icon-globe"></i> ' . $this->listing->website . '</a></li>'; 
+        ?>
+        <?php 
+          if($this->listing->facebook) echo '<li style="line-height: 26px;"><a href="' . $this->listing->facebook . '" target="_blanck"><i class="icon-facebook-sign"></i>  Facebook</a></li>';
+        ?>
+        <?php 
+          if($this->listing->twitter) echo '<li style="line-height: 26px;"><a href="http://twitter.com/' . $this->listing->twitter . '" target="_blanck"><i class="icon-twitter-sign"></i> @' . $this->listing->twitter . '</a></li>'; 
+        ?>
       </ul>
     </div>
   </div> 
 </div>
 <script type="text/javascript" src="<?php echo JURI::base() . 'components/com_saservice/asserts/js/bootstrap.min.js'; ?>"></script>
+<script>document.write('<script src="http://maps.google.com/maps/api/js?sensor=true&region=ZA"><\/script>')</script>
+<script type="text/javascript" src="<?php echo JURI::base() . 'components/com_saservice/asserts/js/maps.js'; ?>"></script>
 <script type="text/javascript">
-  if(typeof jQuery !== 'undefined') {
-    var address = "35 Galway Road, Durban, 4001";
-    jQuery(function() {
+jQuery.noConflict();
+
+(function($) {
+    $(function() {
       var map = new GMaps({
         div: '#ss_listingmap',
         lat: <?php echo $this->listing->lat; ?>,
@@ -105,7 +121,7 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
       });
       
       GMaps.geocode({
-        address: address,
+        address: "<?php echo $this->listing->formatted_address; ?>",
         callback: function(results, status){
           if(status=='OK'){
             var latlng = results[0].geometry.location;
@@ -118,9 +134,9 @@ $document->addScript(JURI::base() . 'components/com_saservice/asserts/js/maps.js
         }
       });
       
-      jQuery('#myCarousel').carousel({
+      $('#myCarousel').carousel({
         interval: 7000
       });
     });
-  }
+})(jQuery);
 </script>

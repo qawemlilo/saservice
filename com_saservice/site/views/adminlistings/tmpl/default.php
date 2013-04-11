@@ -32,7 +32,7 @@ echo $this->loadTemplate('head');
           <input type="checkbox" value="<?php echo $listing->id; ?>" name="listings[]" />
         </td>
         <td>
-          <a href="#"><?php echo $listing->name; ?></a>
+          <a href="<?php echo JRoute::_('index.php?com_saservice&view=adminlistings&layout=edit&id=' . $listing->id ); ?>"><?php echo $listing->name; ?></a>
         </td>
         <td>
           0<?php echo $listing->phone; ?>
@@ -91,11 +91,12 @@ echo $this->loadTemplate('head');
             
             return false;
         });
+
         
         $('#edit-listing').on('click', function () {
-            $('#hidden-task').value('adminlistings.edit');
+            $('#hidden-task').val('adminlistings.edit');
             
-            if ($('#hidden-task').value() === 'adminlistings.edit') {
+            if ($('#hidden-task').val() === 'adminlistings.edit') {
                 $('#listings-form').submit();
             }
             

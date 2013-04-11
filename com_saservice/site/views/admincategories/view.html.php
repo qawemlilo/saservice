@@ -7,6 +7,22 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
 
+function isAllowed($chech_perms = 3) {
+    $isAllowed = false;
+    $user =& JFactory::getUser();
+    $user_perms = $user->authorisedLevels();
+	
+    if (is_int($chech_perms)) {
+        foreach($user_perms as $permission) {
+	        if($permission == $chech_perms) {
+                $isAllowed = true;
+            }
+        }	
+	}
+    
+	return $isAllowed;
+}
+
 
 class SaServiceViewAdmincategories extends JView
 {
@@ -14,6 +30,11 @@ class SaServiceViewAdmincategories extends JView
     function display($tpl = null) {
         $this->layout = JRequest::getVar('layout', '', 'GET', 'string');
         $this->category = false;
+        
+        if(!isAllowed()) {
+            $application = JFactory::getApplication();
+            $application->redirect('index.php?option=com_users&view=login', 'Restricted area, login required.');
+        }
         
         if ($this->layout == 'new' || $this->layout == 'edit') {
             $this->categories = $this->get('FormCategories');

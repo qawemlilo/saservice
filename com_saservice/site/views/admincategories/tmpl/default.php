@@ -61,6 +61,8 @@ echo $this->loadTemplate('head');
 </div>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script type="text/javascript">
+jQuery.noConflict();
+
 (function ($) {
     $(function () {
         var pgnDiv = $('.pagination')[0],

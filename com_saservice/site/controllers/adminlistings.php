@@ -137,6 +137,121 @@ class SaServiceControllerAdminlistings extends JController
     
     
     
+    public function edit () {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $application =& JFactory::getApplication();
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $listings = JRequest::getVar('listings', null, 'post', 'array');
+        
+        if (is_array($listings) && !empty($listings) && count($listings) > 0) {
+            if (!($id = (int)$listings[0])) {
+                $application->redirect($refer, 'Error! Failed to open Listing', 'error');
+            }
+            else {
+                $nextpage = JRoute::_('index.php?option=com_saservice&view=adminlistings&layout=edit&id=' . $id);
+                $application->redirect($nextpage);
+            }
+        }
+        else {
+            $application->redirect($refer, 'Error! No Listing was selected', 'error');
+        }
+    }
+    
+    
+    
+    
+    
+    
+    public function update () {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $this->application =& JFactory::getApplication();
+        $this->refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $next = JRoute::_('index.php?option=com_saservice&view=adminlistings');
+        $model =& $this->getModel('adminlistings');
+        $form = array();
+        $slides = array();
+        $categories = array();
+        
+        // General Info
+        $form['name'] = JRequest::getVar('service_provider', '', 'post', 'string');
+        $form['email'] = JRequest::getVar('email', '', 'post', 'string');
+        $form['website'] = JRequest::getVar('og_website', '', 'post', 'string');
+        $form['phone'] = JRequest::getVar('phone', '', 'post', 'int');
+        $form['cell'] = JRequest::getVar('cell', '', 'post', 'int');
+        $form['fax'] = JRequest::getVar('fax', '', 'post', 'int');
+        
+        // Social Pages
+        $form['twitter'] = JRequest::getVar('twitter', '', 'post', 'string');
+        $form['facebook'] = JRequest::getVar('facebook', '', 'post', 'string');
+        
+        // Location Info
+        $form['province'] = JRequest::getVar('administrative_area_level_1', '', 'post', 'string');
+        $form['locality'] = JRequest::getVar('locality', '', 'post', 'string');
+        $form['sublocality'] = JRequest::getVar('sublocality', '', 'post', 'string');
+        $form['lng'] = JRequest::getVar('lng', '', 'post', 'string');
+        $form['lat'] = JRequest::getVar('lat', '', 'post', 'string');
+        $form['formatted_address'] = JRequest::getVar('formatted_address', '', 'post', 'string');
+        
+        
+        
+        // Business Info
+        $form['slogan'] = JRequest::getVar('slogan', '', 'post', 'string');
+        $categories = JRequest::getVar('categories', null, 'post', 'array');
+        $form['services_offered'] = JRequest::getVar('services', '', 'post', 'string');
+        $form['aboutus'] = JRequest::getVar('aboutus', '', 'post', 'string');       
+        
+        $logo = JRequest::getVar('logo', null, 'files', 'array');
+        
+        // Slide Images
+        $slides[] = JRequest::getVar('slide1', null, 'files', 'array');
+        $slides[] = JRequest::getVar('slide2', null, 'files', 'array');
+        $slides[] = JRequest::getVar('slide3', null, 'files', 'array');
+        $slides[] = JRequest::getVar('slide4', null, 'files', 'array');
+        
+        $id = JRequest::getVar('listingid', '', 'post', 'int');
+        
+        
+        if (!$form['services_offered']) {
+            $form['services_offered'] = implode(",", $categories);   
+        }
+        
+        if (!$model->updateListing($id, $form)) {
+            JError::raiseWarning( 500, 'Listing database not updated.');
+        }
+        else {
+            $listingFolder = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id;
+            $showcaseFolder = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'showcase';
+            
+
+            if (!empty($logo) && !empty($logo['name']) && !empty($logo['tmp_name'])) {
+                $logofilename = JFile::makeSafe($logo['name']);
+                $logoExt = strtolower(JFile::getExt($logofilename));
+                $logopath = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'listings' . DS . 'listing_' . $id . DS . 'logo.' . $logoExt;
+                
+                if (!$this->upload($logo['tmp_name'], $logopath)) {
+                    JError::raiseWarning( 500, 'Error! Failed to load the logo');
+                }
+            }
+                
+            $this->addSlides($id, $slides);
+                    
+            if (!empty($categories)) {
+                if (!$model->updateListingCategory((int)$id, $categories)) {
+                    $this->application->redirect($this->refer, 'Error! Failed to categories', 'error');
+                    exit();
+                }
+            }
+                    
+            $this->application->redirect($next, 'Listing successfully updated!', 'success');
+        }
+    }
+    
+    
+    
+    
+    
     private function addSlides($id, $slides) {
         for ($i=0; $i < count($slides); $i++) {
             $slidefilename = JFile::makeSafe($slides[$i]['name']);
