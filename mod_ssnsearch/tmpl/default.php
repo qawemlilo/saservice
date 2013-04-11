@@ -26,10 +26,12 @@ $document->addStyleDeclaration($style);
 </div>
 
 <script>window.jQuery || document.write('<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/jquery.js' ?>"><\/script>')</script>
-<script>document.write('<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/bootstrap-typeahead.js' ?>"><\/script>')</script>
-<script>document.write('<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"><\/script>')</script>
-<script>document.write('<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/jquery.geocomplete.min.js' ?>"><\/script>')</script>
+<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/bootstrap-typeahead.js'; ?>"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/js/jquery.geocomplete.min.js'; ?>"></script>
 <script>
+    jQuery.noConflict();
+    
     (function($){
         var input = document.createElement('input'), service, location;
         
