@@ -46,8 +46,4 @@ ul li a.active {
   margin-left: 5px !important;
 }
 
-#ss_listingmap img {
-  max-width: none;
-  width: auto; 
-  display:inline;
-}
+
