@@ -31,11 +31,21 @@ class SaServiceControllerAdmincategories extends JController
         $form['parent_id'] = JRequest::getVar('parent_id', 0, 'post', 'int');
         $image = JRequest::getVar('image', null, 'files', 'array');
         
-        if (!$model->addCategory($form)) {
+        if (!($id = $model->addCategory($form))) {
             $application->redirect($refer, 'Error! Failed to save category', 'error');
         }
         else {
-            $application->redirect($refer, 'Category successfully saved!', 'success');
+            if (!empty($image) && !empty($image['name']) && !empty($image['tmp_name'])) {
+                $filename = JFile::makeSafe($image['name']);
+                $ext = strtolower(JFile::getExt($filename));
+                $path = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'categories' . DS . 'category_' . $id . DS . 'banner.' . $ext;
+                
+                if (!$this->upload($image['tmp_name'], $path)) {
+                    JError::raiseWarning( 500, 'Error! Failed to load the image.');
+                }
+                
+                $application->redirect($refer, 'Category successfully saved!', 'success');
+            }
         }
     }
     
@@ -60,34 +70,23 @@ class SaServiceControllerAdmincategories extends JController
             $application->redirect($refer, 'Error! Failed to update category', 'error');
         }
         else {
-            $application->redirect($refer, 'Category successfully saved!', 'success');
+            if (!empty($image) && !empty($image['name']) && !empty($image['tmp_name'])) {
+                $filename = JFile::makeSafe($image['name']);
+                $ext = strtolower(JFile::getExt($filename));
+                $path = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'categories' . DS . 'category_' . $id . DS . 'banner.' . $ext;
+                
+                if (!$this->upload($image['tmp_name'], $path)) {
+                    JError::raiseWarning( 500, 'Error! Failed to load the image.');
+                }
+                
+                $application->redirect($refer, 'Category successfully updated!', 'success');
+            }
+            
+            $application->redirect($refer, 'Category successfully updated!', 'success');
         }
     }
     
     
-    
-    
-    
-    public function remove () {
-        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-        
-        $application =& JFactory::getApplication();
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-        $model = $this->getModel('admincategories');
-        $categories = JRequest::getVar('categories', null, 'post', 'array');
-        
-        if (is_array($categories) && !empty($categories) && count($categories) > 0) {
-            if (!$model->removeCategory($categories)) {
-                $application->redirect($refer, 'Error! Failed to delete Category(s)', 'error');
-            }
-            else {
-                $application->redirect($refer, 'Category(s) successfully deleted!', 'success');
-            }
-        }
-        else {
-            $application->redirect($refer, 'Error! No categories were selected', 'error');
-        }
-    }
     
     public function edit () {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -108,5 +107,60 @@ class SaServiceControllerAdmincategories extends JController
         else {
             $application->redirect($refer, 'Error! No category was selected', 'error');
         }
+    }
+    
+    
+    
+    
+    public function remove () {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $application =& JFactory::getApplication();
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $model = $this->getModel('admincategories');
+        $categories = JRequest::getVar('categories', null, 'post', 'array');
+        
+        if (is_array($categories) && !empty($categories) && count($categories) > 0) {
+            if (!$model->removeCategory($categories)) {
+                $application->redirect($refer, 'Error! Failed to delete Category(s)', 'error');
+            }
+            else {
+                $this->deleteFolders($categories);
+                $application->redirect($refer, 'Category(s) successfully deleted!', 'success');
+            }
+        }
+        else {
+            $application->redirect($refer, 'Error! No categories were selected', 'error');
+        }
+    }   
+    
+    
+    
+    
+    private function upload ($src, $dest) {
+        if (JFile::exists($dest)) {
+            JFile::delete($dest);  
+        }
+    
+        if (JFile::upload($src, $dest)) {
+            return true;
+        }
+    
+        return false;
+    }
+    
+    
+    
+    
+    private function deleteFolders ($categories) {
+        $path = JPATH_SITE . DS . 'media' . DS . 'com_saservice' . DS . 'categories' . DS . 'category_';
+        
+        foreach ($categories as $id) {
+            if (JFolder::exists($path . $id)) {
+                JFolder::delete($path . $id);
+            }
+        }
+    
+        return true;
     }
 }

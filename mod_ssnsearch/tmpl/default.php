@@ -13,15 +13,17 @@ $document->addStyleDeclaration($style);
 
 <div class="well">
   <form id="saservice-search" method="post" name="saservice-search" action="<?php echo JRoute::_('index.php?option=com_saservice&view=listings'); ?>">
-    <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" style="width:42px" title="Search" alt="Search" />
-    
     <input type="text" name="service" data-items="8" data-provide="typeahead" autocomplete="off" id="service-field" placeholder="Service " style="padding: 10px; height: 30px; font-size:24px; width:350px; margin-right: 20px;" data-source='<?php echo $categoriesArray; ?>' />
-    <input type="text" name="location" id="location-field" placeholder="Your location or address" style="padding: 10px; font-size:24px; width:450px; height: 30px;" />
+    <input type="text" name="user-search" id="location-field" placeholder="Your location or address" style="padding: 10px; font-size:24px; width:450px; height: 30px;" />
     
     <?php echo JHtml::_('form.token'); ?>
     <input id="administrative_area_level_1" name="administrative_area_level_1" type="hidden" />
+    <input id="formatted_address" name="formatted_address" type="hidden">
     <input id="locality" name="locality" type="hidden" />
     <input id="sublocality" name="sublocality" type="hidden" />
+    <button type="submit" class="btn btn-large" id="submit-search-query">
+        <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" style="width:37px" title="Search" alt="Search" />
+    </button>
   </form>
 </div>
 
@@ -41,6 +43,11 @@ $document->addStyleDeclaration($style);
             if (!$('#service-field').val() || $('#service-field').val() === 'Service') {
                $('#service-field').focus();
             }
+        });
+        
+        $('#submit-search-query').on('click', function () {
+            $('#location-field').trigger('geocode');
+            return false;
         });
         
         $("#location-field")

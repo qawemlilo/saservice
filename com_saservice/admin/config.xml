@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="emails" label="Email Settings" description="Email Settings">
+		<field name="first_email" type="text" label="First Email" description="First Email"></field>
+        <field name="second_email" type="text" label="Second Email" description="Second Email"></field>
+	</fieldset>
+</config>

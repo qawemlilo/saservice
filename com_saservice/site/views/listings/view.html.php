@@ -17,8 +17,10 @@ class SaServiceViewListings extends JView
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         
         $this->listings = $this->get('Search');
+        $this->pagination = $this->get('Pagination');
 
         $this->service = JRequest::getVar('service');
+        $this->location = JRequest::getVar('formatted_address');
         
 		parent::display($tpl);
 	}

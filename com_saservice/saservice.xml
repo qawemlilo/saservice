@@ -60,6 +60,7 @@
 			<!-- Admin Main File Copy Section -->
 			<filename>index.html</filename>
 			<filename>saservice.php</filename>
+            <filename>config.xml</filename>
 			<!-- SQL files section -->
 			<folder>sql</folder>
 		</files>

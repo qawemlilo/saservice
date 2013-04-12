@@ -44,6 +44,11 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/st
       <div class="row-fluid">
        <h2>Contact Us</h2>
        <form method="post" name="contactusform"  id="contactusform" class="well">
+         <div class="progress progress-striped active" style="display:none">
+           <div class="bar" style="width: 100%;"></div>
+         </div>
+         <div id="responseD" class="alert" style="display:none">
+         </div>
          <div class="control-group">
            <label class="control-label" for="name"> <i class="icon-user"> </i> Name</label>
         
@@ -114,29 +119,63 @@ jQuery.noConflict();
 
 (function($) {
     $(function() {
-      var map = new GMaps({
-        div: '#ss_listingmap',
-        lat: <?php echo $this->listing->lat; ?>,
-        lng: <?php echo $this->listing->lng; ?>
-      });
-      
-      GMaps.geocode({
-        address: "<?php echo $this->listing->formatted_address; ?>",
-        callback: function(results, status){
-          if(status=='OK'){
-            var latlng = results[0].geometry.location;
-            map.setCenter(latlng.lat(), latlng.lng());
-            map.addMarker({
-              lat: latlng.lat(),
-              lng: latlng.lng()
+        $("#contactusform").on('submit', function () {   
+            var self = this,
+                progress = $('.progress'),
+                responseD = $('#responseD');
+            
+            progress.slideDown('slow', function () {
+              $.post('index.php?option=com_saservice&task=listings.email', $(self).serialize())
+              .done(function(data) {
+                progress.slideUp('slow', function () {
+                    responseD.addClass('alert-success').html($('<strong>Message sent!</strong>')).slideDown('slow');
+                });
+                  
+                window.setTimeout(function () { 
+                    responseD.slideUp('slow', function () {
+                        responseD.removeClass('alert-success');
+                    }); 
+                }, 10 * 1000);
+              })
+              .fail(function(data) {
+                progress.slideUp('slow', function () {
+                    responseD.addClass('alert-error').html($('<strong>Error, message not sent!</strong>')).slideDown();
+                });
+                  
+                window.setTimeout(function () { 
+                    responseD.slideUp('slow', function () {
+                        responseD.removeClass('alert-error');
+                    }); 
+                }, 10 * 1000);
+              });
             });
-          }
-        }
-      });
+            
+            return false;
+        });
+        
+        var map = new GMaps({
+            div: '#ss_listingmap',
+            lat: <?php echo $this->listing->lat; ?>,
+            lng: <?php echo $this->listing->lng; ?>
+        });
       
-      $('#myCarousel').carousel({
-        interval: 7000
-      });
+        GMaps.geocode({
+            address: "<?php echo $this->listing->formatted_address; ?>",
+            callback: function(results, status){
+                if (status=='OK'){
+                    var latlng = results[0].geometry.location;
+                    map.setCenter(latlng.lat(), latlng.lng());
+                    map.addMarker({
+                        lat: latlng.lat(),
+                        lng: latlng.lng()
+                    });
+                }
+            }
+        });
+      
+        $('#myCarousel').carousel({
+            interval: 7000
+        });
     });
 })(jQuery);
 </script>

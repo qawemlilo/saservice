@@ -6,19 +6,10 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-
-function isAllowed($chech_perms = 3) {
-    $isAllowed = false;
+// Function checks if the user has permission to view this page
+function isAllowed($permission = 3) {
     $user =& JFactory::getUser();
-    $user_perms = $user->authorisedLevels();
-	
-    if (is_int($chech_perms)) {
-        foreach($user_perms as $permission) {
-	        if($permission == $chech_perms) {
-                $isAllowed = true;
-            }
-        }	
-	}
+    $isAllowed = in_array($permission, $user->authorisedLevels());
     
 	return $isAllowed;
 }
@@ -26,7 +17,6 @@ function isAllowed($chech_perms = 3) {
 
 class SaServiceViewAdminlistings extends JView
 {
-    // Overwriting JView display method
     function display($tpl = null) {
         $this->layout = JRequest::getVar('layout', '', 'GET');
         $this->listing = false;

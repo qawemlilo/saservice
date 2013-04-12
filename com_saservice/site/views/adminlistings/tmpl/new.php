@@ -95,7 +95,7 @@ echo $this->loadTemplate('head');
   <div class="controls">                     
     <input id="physical_address" name="physical_address" placeholder="Enter address here..." class="input-xxlarge" required="" type="text"> 
     <input class="btn" type="button" value="find" id="find" />
-    <input id="formatted_address" name="formatted_address" class="input-xxlarge" type="hidden">
+    <input id="formatted_address" name="formatted_address" type="hidden">
   </div>
 </div>
 

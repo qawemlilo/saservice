@@ -57,8 +57,11 @@ echo $this->loadTemplate('head');
 </div>
 
 <script type="text/javascript">
+jQuery.noConflict();
+
 (function ($) {
     $(function () {
+      if ($('.pagination').length) {
         var pgnDiv = $('.pagination')[0],
             ul = $('<ul>'),
             li, child;
@@ -79,7 +82,8 @@ echo $this->loadTemplate('head');
             ul.append(li);
         });
         
-        $(pgnDiv).empty().append(ul); 
+        $(pgnDiv).empty().append(ul)
+      } 
         
         
         $('#delete-listing').on('click', function () {

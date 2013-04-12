@@ -19,12 +19,73 @@ AND bzhpg_ss_categories.name = 'Website Designers';
 
 class SaServiceModelListings extends JModelItem
 {
-    public function getSearch() {
+    private $_total = null;    
+    private $_pagination = null;   
     
+    
+    function __construct() {
+        parent::__construct();
+ 
+        $mainframe = JFactory::getApplication();
+ 
+        // Get pagination request variables
+        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', 24, 'int');
+        $limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+        
+        // In case limit has been changed, adjust it
+        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $this->setState('limit', $limit);
+        $this->setState('limitstart', $limitstart);
+    }
+    
+    
+    
+    
+    private function _buildQuery($service = '', $province = '', $locality = '', $sublocality = '') {
+    
+        $query = "SELECT bzhpg_ss_listings.id, bzhpg_ss_listings.name, bzhpg_ss_listings.locality ";
+        $query .= "FROM bzhpg_ss_listings ";
+        $query .= "INNER JOIN bzhpg_ss_category_listing ON bzhpg_ss_listings.id = bzhpg_ss_category_listing.listing_id ";
+        $query .= "INNER JOIN bzhpg_ss_categories ON bzhpg_ss_category_listing.category_id = bzhpg_ss_categories.id ";
+        $query .= "WHERE bzhpg_ss_categories.name = '$service' ";
+        
+        if ($sublocality) {
+            $query .= "AND ((bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.sublocality = '$sublocality') OR (bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.locality = '$locality') OR bzhpg_ss_listings.province = '$province')";
+        }
+        elseif ($locality) {
+            $query .= "AND ((bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.locality = '$locality') OR bzhpg_ss_listings.province = '$province')";
+        }
+        else {
+            $query .= "AND bzhpg_ss_listings.province = '$province'";
+        }
+        
+        return $query;        
+    }
+    
+    
+    
+    
+    private function getTotal() {
+        $service = JRequest::getVar('service', '', 'post', 'string');
         $province = JRequest::getVar('administrative_area_level_1', '', 'post', 'string');
         $locality = JRequest::getVar('locality', '', 'post', 'string');
         $sublocality = JRequest::getVar('sublocality', '', 'post', 'string');
+        
+        if (empty($this->_total)) {
+            $query = $this->_buildQuery();
+ 	        $this->_total = $this->_buildQuery($service, $province, $locality, $sublocality);	
+ 	    }
+        return $this->_total;
+    }
+    
+    
+    
+    
+    public function getSearch() {
         $service = JRequest::getVar('service', '', 'post', 'string');
+        $province = JRequest::getVar('administrative_area_level_1', '', 'post', 'string');
+        $locality = JRequest::getVar('locality', '', 'post', 'string');
+        $sublocality = JRequest::getVar('sublocality', '', 'post', 'string');
         
         if (!$province || !$service) {
             return false;
@@ -32,12 +93,7 @@ class SaServiceModelListings extends JModelItem
         
         $db = JFactory::getDBO();
         
-        $query = "SELECT bzhpg_ss_listings.id, bzhpg_ss_listings.name, bzhpg_ss_listings.locality ";
-        $query .= "FROM bzhpg_ss_listings ";
-        $query .= "INNER JOIN bzhpg_ss_category_listing ON bzhpg_ss_listings.id = bzhpg_ss_category_listing.listing_id ";
-        $query .= "INNER JOIN bzhpg_ss_categories ON bzhpg_ss_category_listing.category_id = bzhpg_ss_categories.id ";
-        $query .= "WHERE bzhpg_ss_categories.name = '$service' ";
-        $query .= "AND ((bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.sublocality = '$sublocality') OR (bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.locality = '$locality') OR bzhpg_ss_listings.province = '$province')";
+        $query = $this->_buildQuery($service, $province, $locality, $sublocality);
 
         
         $db->setQuery($query);
@@ -51,5 +107,20 @@ class SaServiceModelListings extends JModelItem
         
         return $result;
     }
+    
+    
+    
+    
+    public function getPagination() {
+ 	    $total = $this->getTotal();
+ 	    
+        // Load the content if it doesn't already exist
+ 	    if (empty($this->_pagination)) {
+ 	        jimport('joomla.html.pagination');
+ 	        $this->_pagination = new JPagination($total, $this->getState('limitstart'), $this->getState('limit') );
+        }
+ 	
+        return $this->_pagination;
+    }   
 }
 
