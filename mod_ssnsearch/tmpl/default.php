@@ -7,22 +7,26 @@ $style = '
   ul.dropdown-menu {
     width: 380px !important;
   }
+  
+  .module h3.module-title {
+    margin-bottom: 0px !important;
+  }
 ';
 $document->addStyleDeclaration($style);
 ?>
 
-<div class="well">
+<div class="well" style="border: 1px solid #B8B8B8;">
   <form id="saservice-search" method="post" name="saservice-search" action="<?php echo JRoute::_('index.php?option=com_saservice&view=listings'); ?>">
-    <input type="text" name="service" data-items="8" data-provide="typeahead" autocomplete="off" id="service-field" placeholder="Service " style="padding: 10px; height: 30px; font-size:24px; width:350px; margin-right: 20px;" data-source='<?php echo $categoriesArray; ?>' />
-    <input type="text" name="user-search" id="location-field" placeholder="Your location or address" style="padding: 10px; font-size:24px; width:450px; height: 30px;" />
+    <input type="text" name="service" data-items="8" data-provide="typeahead" autocomplete="off" id="service-field" placeholder="e.g: Plumber" style="color: #1E598D; padding: 10px; height: 30px; font-size:24px; width:350px; margin-right: 20px; border: 1px solid #B8B8B8;" data-source='<?php echo $categoriesArray; ?>' />
+    <input type="text" name="user-search" id="location-field" placeholder="e.g: Morningside, durban" style="color: #1E598D; border: 1px solid #B8B8B8; padding: 10px; font-size:24px; width:450px; height: 30px;" />
     
     <?php echo JHtml::_('form.token'); ?>
     <input id="administrative_area_level_1" name="administrative_area_level_1" type="hidden" />
     <input id="formatted_address" name="formatted_address" type="hidden">
     <input id="locality" name="locality" type="hidden" />
     <input id="sublocality" name="sublocality" type="hidden" />
-    <button type="submit" class="btn btn-large" id="submit-search-query">
-        <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" style="width:37px" title="Search" alt="Search" />
+    <button type="submit" class="btn btn-large" style="color: #202020; border: 1px solid #B8B8B8;" id="submit-search-query">
+        <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" style="width:40px" title="Search" alt="Search" />
     </button>
   </form>
 </div>

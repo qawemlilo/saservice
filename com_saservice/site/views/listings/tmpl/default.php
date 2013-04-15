@@ -27,8 +27,7 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bo
       echo '</ul>';
     else :
   ?>
-    <div class="alert alert-block">No results were found.</div>
-    <div class="alert alert-block alert-info">Our website is ever growing, submit your email and get notified when we have new data that matches your search.</div> 
+    <div class="alert alert-block">Sorry we don't have matching results for what you are looking for, please help us improve SA Service Network by submitting the form below.</div>
     <div class="row-fluid">
       <form class="form-inline well" id="searchform" name="searchform" action="" method="post">
          <div class="progress progress-striped active" style="display:none">

@@ -43,20 +43,20 @@ class SaServiceModelListings extends JModelItem
     
     private function _buildQuery($service = '', $province = '', $locality = '', $sublocality = '') {
     
-        $query = "SELECT bzhpg_ss_listings.id, bzhpg_ss_listings.name, bzhpg_ss_listings.locality ";
-        $query .= "FROM bzhpg_ss_listings ";
-        $query .= "INNER JOIN bzhpg_ss_category_listing ON bzhpg_ss_listings.id = bzhpg_ss_category_listing.listing_id ";
-        $query .= "INNER JOIN bzhpg_ss_categories ON bzhpg_ss_category_listing.category_id = bzhpg_ss_categories.id ";
-        $query .= "WHERE bzhpg_ss_categories.name = '$service' ";
+        $query = "SELECT listings.id, listings.name, listings.locality ";
+        $query .= "FROM #__ss_listings listings ";
+        $query .= "INNER JOIN #__ss_category_listing catlist ON listings.id = catlist.listing_id ";
+        $query .= "INNER JOIN #__ss_categories categories ON catlist.category_id = categories.id ";
+        $query .= "WHERE categories.name = '$service' ";
         
         if ($sublocality) {
-            $query .= "AND ((bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.sublocality = '$sublocality') OR (bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.locality = '$locality') OR bzhpg_ss_listings.province = '$province')";
+            $query .= "AND ((listings.province = '$province' AND listings.sublocality = '$sublocality') OR (listings.province = '$province' AND listings.locality = '$locality') OR listings.province = '$province')";
         }
         elseif ($locality) {
-            $query .= "AND ((bzhpg_ss_listings.province = '$province' AND bzhpg_ss_listings.locality = '$locality') OR bzhpg_ss_listings.province = '$province')";
+            $query .= "AND ((listings.province = '$province' AND listings.locality = '$locality') OR listings.province = '$province')";
         }
         else {
-            $query .= "AND bzhpg_ss_listings.province = '$province'";
+            $query .= "AND listings.province = '$province'";
         }
         
         return $query;        
