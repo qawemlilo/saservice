@@ -51,7 +51,7 @@ class SaServiceViewAdminlistings extends JView
     
     
     function createSelects($categories, $flag) {
-        $select = '<select name="categories[]" class="input-xlarge" multiple size="12" >';
+        $select = '<select name="categories[]" required="" class="input-xlarge" multiple size="12" >';
         $select .= '<option value="">Select categories</option>';
         
         if (!(is_array($categories) && count($categories) > 0)) {

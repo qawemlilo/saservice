@@ -151,7 +151,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Upload Logo</label>
   <div class="controls">
-    <input name="logo" class="input-file" type="file">
+    <input name="logo" required="" class="input-file" type="file">
   </div>
 </div>
 
@@ -177,7 +177,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">Services Offered</label>
   <div class="controls">
-    <input name="services" placeholder="e.g Mobile websites, Joomla custom development, Website optimisation" class="input-xxlarge" type="text">
+    <input name="services" required="" placeholder="e.g Mobile websites, Joomla custom development, Website optimisation" class="input-xxlarge" type="text">
   </div>
 </div>
 
@@ -185,7 +185,7 @@ echo $this->loadTemplate('head');
 <div class="control-group">
   <label class="control-label">About Us</label>
   <div class="controls">                     
-    <textarea name="aboutus" class="input-xxlarge" rows="5" placeholder="..."></textarea>
+    <textarea name="aboutus" class="input-xxlarge" required="" rows="5" placeholder="..."></textarea>
   </div>
 </div>
 

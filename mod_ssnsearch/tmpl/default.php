@@ -5,20 +5,29 @@ $document =& JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bootstrap.min.css');
 $style = '  
   ul.dropdown-menu {
-    width: 380px !important;
+    width: 430px !important;
   }
   
   .module h3.module-title {
     margin-bottom: 0px !important;
   }
+  #search-img {
+    width:40px;
+  }  
+  
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+    #search-img {
+      width:30px!important;
+    }
+}
 ';
 $document->addStyleDeclaration($style);
 ?>
 
 <div class="well" style="border: 1px solid #B8B8B8;">
   <form id="saservice-search" method="post" name="saservice-search" action="<?php echo JRoute::_('index.php?option=com_saservice&view=listings'); ?>">
-    <input type="text" name="service" data-items="8" data-provide="typeahead" autocomplete="off" id="service-field" placeholder="e.g: Plumber" style="color: #1E598D; padding: 10px; height: 30px; font-size:24px; width:350px; margin-right: 20px; border: 1px solid #B8B8B8;" data-source='<?php echo $categoriesArray; ?>' />
-    <input type="text" name="user-search" id="location-field" placeholder="e.g: Morningside, durban" style="color: #1E598D; border: 1px solid #B8B8B8; padding: 10px; font-size:24px; width:450px; height: 30px;" />
+    <input type="text" name="service" required="" data-items="8" data-provide="typeahead" autocomplete="off" id="service-field" placeholder="e.g: Plumber" style="color: #1E598D; padding: 10px; height: 30px; font-size:24px; width:400px; margin-right: 10px; border: 1px solid #B8B8B8;" data-source='<?php echo $categoriesArray; ?>' />
+    <input type="text" name="user-search" required="" id="location-field" placeholder="e.g: Morningside, durban" style="color: #1E598D; border: 1px solid #B8B8B8; padding: 10px; font-size:24px; width:400px; height: 30px;" />
     
     <?php echo JHtml::_('form.token'); ?>
     <input id="administrative_area_level_1" name="administrative_area_level_1" type="hidden" />
@@ -26,7 +35,7 @@ $document->addStyleDeclaration($style);
     <input id="locality" name="locality" type="hidden" />
     <input id="sublocality" name="sublocality" type="hidden" />
     <button type="submit" class="btn btn-large" style="color: #202020; border: 1px solid #B8B8B8;" id="submit-search-query">
-        <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" style="width:40px" title="Search" alt="Search" />
+        <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" id="search-img" title="Search" alt="Search" />
     </button>
   </form>
 </div>
@@ -68,15 +77,15 @@ $document->addStyleDeclaration($style);
             service = $('#service-field'); 
             location = $('#location-field');
             
-            service.val('Service');
-            location.val('Your location or address');
+            service.val('e.g: Plumber');
+            location.val('e.g: Morningside, durban');
             
             service.focus(function () {
-                service.val('');  
+                if (service.val() === 'e.g: Plumber') service.val('');  
             })
             .blur(function () {
                 if (!service.val()) {
-                    service.val('Service');
+                    service.val('e.g: Plumber');
                 }
             });
             
@@ -85,7 +94,7 @@ $document->addStyleDeclaration($style);
             })
             .blur(function () {
                 if (!location.val()) {
-                    location.val('Your location or address');
+                    location.val('e.g: Morningside, durban');
                 }
             });
         }

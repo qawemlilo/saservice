@@ -16,7 +16,7 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bo
       echo '<ul class="thumbnails" style="padding-left: 0px">';
       foreach ($this->listings as $listing) {
   ?>
-        <li class="span2">
+        <li class="span3">
           <a href="<?php echo JRoute::_('index.php?option=com_saservice&view=listing&id=' . $listing->id); ?>" class="thumbnail">
               <img src="<?php echo JURI::base() . 'media/com_saservice/listings/listing_' . $listing->id . '/logo.png'; ?>" title="<?php echo $listing->name ?>" alt="<?php echo $listing->name ?>">
               <i class="icon-info-sign"></i>  <?php echo $listing->name ?>
@@ -36,7 +36,7 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/bo
          <div id="responseD" class="alert" style="display:none">
          </div>
          
-       <input type="text" name="email" class="input-xlarge" placeholder="Email" />
+       <input type="text" name="email" id="email" required="" class="input-xlarge" placeholder="Email" />
        <input type="hidden" name="service" value="<?php echo $this->service; ?>" />
        <input type="hidden" name="location" value="<?php echo $this->location; ?>" />
        <button type="submit" type="submit" class="btn">Submit</button>
@@ -56,10 +56,19 @@ jQuery.noConflict();
 
 (function ($) {
     $(function () {
+        function IsEmail (email) {
+            var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
+        
         $("#searchform").on('submit', function () {   
             var self = this,
                 progress = $('.progress'),
                 responseD = $('#responseD');
+            
+            if (!IsEmail($("#email").val())) {
+                return false;
+            }
             
             progress.slideDown('slow', function () {
               $.post('index.php?option=com_saservice&task=listings.subscribe', $(self).serialize())
