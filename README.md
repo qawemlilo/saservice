@@ -17,7 +17,7 @@ SA Service Network is business listing directory.
 ## Modules for Listings Component
 - Location (using Google Maps)
 - Testimonials
-- Company Details
+- Company Detail
 
 
 
