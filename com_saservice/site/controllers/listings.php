@@ -13,9 +13,9 @@ class SaServiceControllerListings extends JController
 
         $config = JComponentHelper::getParams('com_saservice');
         
-        $id = JRequest::getVar('listing_id', '', 'post', 'int');
+        $id = JRequest::getVar('listing_id', 0, 'post', 'int');
         $name = JRequest::getVar('name', '', 'post', 'string');
-        $email = JRequest::getVar('email', 0, 'post', 'string');
+        $email = JRequest::getVar('email', '', 'post', 'string');
         $message = JRequest::getVar('message', '', 'post', 'string');
         
         $msg = "From: $name \n";

@@ -53,21 +53,21 @@ $document->addStyleSheet(JURI::base() . 'components/com_saservice/asserts/css/st
            <label class="control-label" for="name"> <i class="icon-user"> </i> Name</label>
         
            <div class="controls controls-row">
-             <input type="text" style="margin-left: 0px" required="" class="input-xxlarge" placeholder="Your name" name="name">
+             <input type="text" style="margin-left: 0px" required="" class="span12" placeholder="Your name" name="name">
            </div>
          </div>
          <div class="control-group">
            <label class="control-label" for="email"> <i class="icon-envelope"> </i> Email</label>
         
            <div class="controls">
-             <input type="text" style="margin-left: 0px" class="input-xxlarge" required="" placeholder="Your email address" name="email">
+             <input type="text" style="margin-left: 0px" class="span12" required="" placeholder="Your email address" name="email">
            </div>
          </div>
          <div class="control-group">
            <label class="control-label" for="message"> <i class="icon-pencil"> </i> Message </label>
         
            <div class="controls">
-             <textarea style="margin-left: 0px" class="input-xxlarge" required="" placeholder="Your message..." name="message" rows="3"></textarea>
+             <textarea style="margin-left: 0px" class="span12" required="" placeholder="Your message..." name="message" rows="3"></textarea>
            </div>
          </div>
          <p><button class="btn btn-large btn-success" type="submit">Submit</button></p>

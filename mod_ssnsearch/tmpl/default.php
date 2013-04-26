@@ -37,6 +37,7 @@ $document->addStyleDeclaration($style);
     <button type="submit" class="btn btn-large" style="color: #202020; border: 1px solid #B8B8B8;" id="submit-search-query">
         <img src="<?php echo JURI::base() . 'modules/mod_ssnsearch/asserts/images/search_64x64.png'?>" id="search-img" title="Search" alt="Search" />
     </button>
+    <input type="submit" class="btn btn-large" value="Search" style="display: none;color: #1E598D;padding-bottom: 13px;padding-top: 13px;border: 1px solid #B8B8B8;" id="input-search-query" />
   </form>
 </div>
 
@@ -48,7 +49,14 @@ $document->addStyleDeclaration($style);
     jQuery.noConflict();
     
     (function($){
-        var input = document.createElement('input'), service, location;
+        var input = document.createElement('input'), service, location,
+            ie = $.browser.msie,
+            ver = $.browser.version;
+
+        if ( ie && ver <= 8 ) {
+            $('#submit-search-query').hide();
+            $('#input-search-query').show();
+        }
         
 		$('.typeahead').typeahead();
         
@@ -58,7 +66,7 @@ $document->addStyleDeclaration($style);
             }
         });
         
-        $('#submit-search-query').on('click', function () {
+        $('#submit-search-query, #input-search-query').on('click', function () {
             $('#location-field').trigger('geocode');
             return false;
         });
